@@ -511,4 +511,11 @@
   buildStep3();
   buildMisc();
   goTo(1, { focus: false });
+
+  // Arrivée depuis la galerie : index.html?prestation=knotless#reserver
+  const pre = new URLSearchParams(location.search).get("prestation");
+  if (pre && familyById(pre)) {
+    setFamily(pre);
+    requestAnimationFrame(() => document.getElementById("reserver")?.scrollIntoView());
+  }
 })();
