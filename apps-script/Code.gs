@@ -15,7 +15,7 @@
 const CONFIG = {
   BUSINESS_NAME: "KITOKO's HAIR",
   // Adresse du site publié (GitHub Pages)
-  SITE_URL: "https://dokceles.github.io/Kitokos-hair/",
+  SITE_URL: "https://kitokoshair.github.io/",
   // "primary" = agenda principal du compte. Sinon, l'ID d'un agenda dédié
   // (Agenda Google > Paramètres de l'agenda > Intégrer l'agenda > ID de l'agenda).
   CALENDAR_ID: "primary",
