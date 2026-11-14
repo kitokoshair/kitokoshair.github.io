@@ -26,6 +26,8 @@ window.KITOKO_SERVICES = {
   groups: [
     { id: "tresses", label: "Tresses" },
     { id: "boucles", label: "Courtes & bouclées" },
+    { id: "french", label: "French curly" },
+    { id: "shuku", label: "Shuku with curls" },
     { id: "twists", label: "Twists & vanilles" },
     { id: "locs", label: "Locs" },
     { id: "nattes", label: "Nattes collées" },
@@ -100,7 +102,7 @@ window.KITOKO_SERVICES = {
 
     // ── Courtes & bouclées ──────────────────────────────────
     {
-      id: "french-curly", group: "boucles", name: "French curly", sizes: true,
+      id: "french-curly", group: "french", name: "French curly", sizes: true,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 40], ["dos", "Dos", 45]],
     },
@@ -110,7 +112,7 @@ window.KITOKO_SERVICES = {
       variants: [["unique", "Prix unique", 35]],
     },
     {
-      id: "shuku-curls", group: "boucles", name: "Shuku with curls", sizes: false,
+      id: "shuku-curls", group: "shuku", name: "Shuku with curls", sizes: false,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 40]],
     },
@@ -162,9 +164,9 @@ window.KITOKO_SERVICES = {
       variants: [["unique", "Prix unique", 35]],
     },
     {
-      id: "passion-twist", group: "twists", name: "Passion twist", sizes: false,
-      variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 35]],
+      id: "passion-twist", group: "twists", name: "Passion twist", sizes: true,
+      variantLabel: "Longueur",
+      variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 40], ["bas-dos", "Bas du dos", 45]],
     },
 
     // ── Locs ─────────────────────────────────────────────────
@@ -198,6 +200,11 @@ window.KITOKO_SERVICES = {
       variantLabel: "Nombre de locs",
       variants: [["100", "100 locs", 50], ["200", "200 locs", 70], ["400", "400 locs", 90]],
     },
+    {
+      id: "pose-faux-locs", group: "locs", name: "Pose de faux locs", sizes: false,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 40]],
+    },
 
     // ── Nattes collées ──────────────────────────────────────
     {
@@ -206,7 +213,7 @@ window.KITOKO_SERVICES = {
       variants: [["epaule", "Épaule", 20], ["mi-dos", "Mi-dos", 25], ["bas-dos", "Bas du dos", 30], ["bas-fesses", "Bas des fesses", 35]],
     },
     {
-      id: "nattes-sans", group: "nattes", name: "Nattes collées sans rajout", sizes: false,
+      id: "nattes-sans", group: "nattes", name: "Nattes collées avec cheveux naturels", sizes: false,
       variantLabel: "Formule",
       variants: [["unique", "Sans rajout (20 à 25 €)", 20, "from"]],
     },
