@@ -5,7 +5,7 @@
  * keywords : mots supplémentaires pour la recherche
  * Après avoir remplacé des photos, augmenter KITOKO_GALLERY_VERSION pour vider le cache.
  */
-window.KITOKO_GALLERY_VERSION = "2";
+window.KITOKO_GALLERY_VERSION = "3";
 window.KITOKO_GALLERY = [
   {"id": "knotless-braids", "title": "Knotless braids", "family": "knotless", "group": "tresses", "keywords": "sans noeud box braids", "w": 520, "h": 338},
   {"id": "boho-braids-version-boheme", "title": "Boho braids (version bohème)", "family": "knotless", "group": "tresses", "keywords": "bohème boucles knotless", "w": 520, "h": 350},
