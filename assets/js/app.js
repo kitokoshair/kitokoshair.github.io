@@ -513,9 +513,17 @@
   goTo(1, { focus: false });
 
   // Arrivée depuis la galerie : index.html?prestation=knotless#reserver
-  const pre = new URLSearchParams(location.search).get("prestation");
+  const qs = new URLSearchParams(location.search);
+  const pre = qs.get("prestation");
   if (pre && familyById(pre)) {
     setFamily(pre);
+    // Options cochées d'avance (ex. index.html?prestation=knotless&options=boheme)
+    for (const id of (qs.get("options") || "").split(",").filter(Boolean)) {
+      const box = $(`[data-extra="${id}"]`);
+      const input = box && !box.hidden ? box.querySelector("input") : null;
+      if (input && !input.checked) { input.checked = true; state.extras.add(id); }
+    }
+    refreshSummary();
     requestAnimationFrame(() => document.getElementById("reserver")?.scrollIntoView());
   }
 })();

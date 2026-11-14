@@ -3,13 +3,14 @@
  * family : prestation du catalogue (services.js) pour le prix et le bouton Réserver, null si aucune
  * group  : filtre (id d'un groupe de services.js)
  * keywords : mots supplémentaires pour la recherche
+ * options  : suppléments cochés d'avance quand on réserve depuis la photo (ex. ["boheme"])
  * Après avoir remplacé des photos, augmenter KITOKO_GALLERY_VERSION pour vider le cache.
  */
-window.KITOKO_GALLERY_VERSION = "4";
+window.KITOKO_GALLERY_VERSION = "5";
 window.KITOKO_GALLERY = [
   {"id": "knotless-braids", "title": "Knotless braids", "family": "knotless", "group": "tresses", "keywords": "sans noeud box braids", "w": 293, "h": 520},
-  {"id": "boho-braids-version-boheme", "title": "Boho braids (version bohème)", "family": "knotless", "group": "tresses", "keywords": "bohème boucles knotless", "w": 388, "h": 520},
-  {"id": "boho-braids-mi-longues", "title": "Boho braids — mi-longues", "family": "knotless", "group": "tresses", "keywords": "bohème boucles knotless", "w": 516, "h": 520},
+  {"id": "boho-braids", "title": "Boho braids", "family": "knotless", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 388, "h": 520, "options": ["boheme"]},
+  {"id": "boho-braids-mi-longues", "title": "Boho braids — mi-longues", "family": "knotless", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 516, "h": 520, "options": ["boheme"]},
   {"id": "lemonade-braids", "title": "Lemonade braids", "family": "lemonade", "group": "tresses", "keywords": "limonade côté", "w": 284, "h": 520},
   {"id": "fulani-braids", "title": "Fulani braids", "family": "fulani-braids", "group": "tresses", "keywords": "fulani", "w": 425, "h": 520},
   {"id": "fulani-braids-variante", "title": "Fulani braids (variante)", "family": "fulani-braids", "group": "tresses", "keywords": "fulani", "w": 520, "h": 477},
@@ -20,13 +21,12 @@ window.KITOKO_GALLERY = [
   {"id": "tems-braids", "title": "Tems braids", "family": "tems", "group": "tresses", "keywords": "", "w": 460, "h": 520},
   {"id": "layer-dolly-braids", "title": "Layer dolly braids", "family": "layer-dolly", "group": "tresses", "keywords": "", "w": 422, "h": 520},
   {"id": "patewo", "title": "Patewo", "family": "patewo", "group": "tresses", "keywords": "", "w": 372, "h": 520},
-  {"id": "stitch-braids", "title": "Stitch braids", "family": "stick", "group": "tresses", "keywords": "stick nattes", "w": 520, "h": 353},
+  {"id": "stitch-braids", "title": "Stitch braids", "family": "nattes-rajout", "group": "nattes", "keywords": "stick nattes collées rajout", "w": 520, "h": 353},
   {"id": "french-curly", "title": "French curly", "family": "french-curly", "group": "boucles", "keywords": "bouclé curls", "w": 339, "h": 520},
   {"id": "shuku-with-curls", "title": "Shuku with curls", "family": "shuku-curls", "group": "boucles", "keywords": "chignon bouclé", "w": 520, "h": 348},
   {"id": "short-lemonade-braids", "title": "Short lemonade braids", "family": "short-lemonade", "group": "boucles", "keywords": "limonade courte", "w": 381, "h": 520},
   {"id": "short-bob-braids", "title": "Short bob braids", "family": "short-bob", "group": "boucles", "keywords": "carré court", "w": 520, "h": 282},
   {"id": "mermaid-braids", "title": "Mermaid braids", "family": "mermaid", "group": "boucles", "keywords": "sirène bouclé", "w": 373, "h": 520},
-  {"id": "short-boho-braids", "title": "Short boho braids", "family": null, "group": "boucles", "keywords": "bohème courte", "w": 458, "h": 520},
   {"id": "short-french-curl-braids", "title": "Short French curl braids", "family": "short-french-curls", "group": "boucles", "keywords": "bouclé courte curls", "w": 368, "h": 520},
   {"id": "short-butterfly-braids", "title": "Short butterfly braids", "family": null, "group": "boucles", "keywords": "courte", "w": 520, "h": 336},
   {"id": "bantu-knots", "title": "Bantu knots", "family": "bantu-knots", "group": "boucles", "keywords": "chignons", "w": 318, "h": 520},
@@ -43,7 +43,7 @@ window.KITOKO_GALLERY = [
   {"id": "medium-locs", "title": "Medium locs", "family": "vrais-locs", "group": "locs", "keywords": "vrais locs resserrage", "w": 520, "h": 373},
   {"id": "resserrage-de-locs", "title": "Resserrage de locs", "family": "vrais-locs", "group": "locs", "keywords": "vrais locs entretien", "w": 520, "h": 383},
   {"id": "nattes-collees-avec-rajout", "title": "Nattes collées avec rajout", "family": "nattes-rajout", "group": "nattes", "keywords": "cornrows", "w": 403, "h": 520},
-  {"id": "cornrows", "title": "Cornrows", "family": "cornrows", "group": "nattes", "keywords": "nattes collées", "w": 520, "h": 335},
+  {"id": "cornrows", "title": "Cornrows", "family": "nattes-rajout", "group": "nattes", "keywords": "nattes collées rajout", "w": 520, "h": 335},
   {"id": "tissage-ferme-avec-closure", "title": "Tissage fermé avec closure", "family": "tissage", "group": "tissage", "keywords": "perruque lace closure", "w": 410, "h": 520},
   {"id": "tissage-ouvert", "title": "Tissage ouvert", "family": "tissage", "group": "tissage", "keywords": "", "w": 399, "h": 520},
   {"id": "tissage-ouvert-carre", "title": "Tissage ouvert — carré", "family": "tissage", "group": "tissage", "keywords": "bob", "w": 520, "h": 295},

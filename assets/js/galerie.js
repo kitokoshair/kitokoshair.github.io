@@ -35,11 +35,16 @@
     const sizeExtra = f.sizes ? Math.min(...CAT.sizes.map((s) => s.extra)) : 0;
     return min + sizeExtra;
   };
-  const priceText = (f) => {
+  const optionsPrice = (ids = []) => ids.reduce((t, id) => t + (CAT.extras.find((x) => x.id === id)?.price || 0), 0);
+  const priceText = (f, opts) => {
     if (!f) return "Sur demande";
     const single = f.variants.length === 1 && !f.sizes;
-    return (single && f.variants[0][3] !== "from" ? "" : "dès ") + euro(minFamilyPrice(f));
+    return (single && f.variants[0][3] !== "from" ? "" : "dès ") + euro(minFamilyPrice(f) + optionsPrice(opts));
   };
+  // Lien « Réserver » : prestation choisie + options déjà cochées (ex. version bohème)
+  const bookUrl = (it) => it.fam
+    ? `index.html?prestation=${encodeURIComponent(it.fam.id)}${it.options?.length ? `&options=${it.options.join(",")}` : ""}#reserver`
+    : "index.html#reserver";
 
   /* ───────── Contact (pied de page) ───────── */
   const biz = CFG.business;
@@ -55,7 +60,7 @@
     const f = family(p.family);
     return {
       ...p, index: i, fam: f,
-      price: priceText(f),
+      price: priceText(f, p.options),
       groupName: groupLabel(p.group),
       search: norm([p.title, p.keywords, f?.name, groupLabel(p.group)].join(" ")),
     };
@@ -90,7 +95,7 @@
   let visible = [];
 
   function card(it) {
-    const book = it.fam ? `index.html?prestation=${encodeURIComponent(it.fam.id)}#reserver` : "index.html#reserver";
+    const book = bookUrl(it);
     return el("li", { class: "shot" },
       el("button", { class: "shot__open", type: "button", "aria-label": `Agrandir la photo : ${it.title}`, onclick: () => openViewer(it.index) },
         el("img", { src: `assets/galerie/${it.id}-s.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`, alt: it.title, width: it.w, height: it.h, loading: "lazy", decoding: "async" })
@@ -133,7 +138,7 @@
     img.src = `assets/galerie/${it.id}.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`; img.alt = it.title;
     $("[data-viewer-title]", dlg).textContent = it.title;
     $("[data-viewer-meta]", dlg).textContent = `${it.groupName} · ${it.price}`;
-    $("[data-viewer-book]", dlg).href = it.fam ? `index.html?prestation=${encodeURIComponent(it.fam.id)}#reserver` : "index.html#reserver";
+    $("[data-viewer-book]", dlg).href = bookUrl(it);
     $("[data-viewer-pos]", dlg).textContent = `${pos + 1} / ${list.length}`;
     // Précharger la suivante
     const next = list[(pos + 1) % list.length]; if (next) new Image().src = `assets/galerie/${next.id}.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`;
