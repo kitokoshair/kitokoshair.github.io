@@ -24,6 +24,7 @@ Les clientes choisissent leur coiffure, voient le prix exact et réservent un cr
 - **Calendrier toujours à jour** : seuls les créneaux réellement libres sont proposés, **7 jours sur 7, de 9 h à 18 h**.
 - **Mèches** : la cliente choisit de venir avec ses mèches ou de les faire fournir par la coiffeuse (sur devis).
 - **Coiffure à domicile** possible au Mans.
+- **Plan d'accès** : la cliente entre son adresse et voit tout de suite son temps de trajet à pied et en voiture, avec le chemin sur la carte (et un lien pour le tram ou le bus).
 - Un **e-mail de confirmation** avec un lien pour annuler facilement.
 - Un site agréable sur téléphone comme sur ordinateur.
 

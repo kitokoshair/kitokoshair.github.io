@@ -16,6 +16,7 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/unbounded-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -29,6 +30,7 @@
       </a>
       <nav class="nav" aria-label="Navigation principale">
         <a href="#tarifs">Tarifs</a>
+        <a href="#acces">Accès</a>
         <a href="#infos">Avant de venir</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -217,6 +219,57 @@
       </div>
     </section>
 
+    <!-- ───────────── Accès / plan ───────────── -->
+    <section class="section section--acces" id="acces" aria-labelledby="acces-title" data-acces>
+      <div class="wrap">
+        <div class="section__head">
+          <h2 id="acces-title">Venir chez votre coiffeuse</h2>
+          <p>La coiffeuse vous reçoit à deux pas de l'arrêt de tram <strong>Lafayette</strong>, rue Gambetta, au Mans. Entrez votre adresse pour savoir combien de temps il vous faut. L'adresse exacte vous est envoyée avec la confirmation du rendez-vous.</p>
+        </div>
+        <div class="acces">
+          <div class="acces__panel">
+            <form class="acces__form" data-acces-form novalidate>
+              <label for="acces-adresse">Votre adresse de départ</label>
+              <div class="acces__row">
+                <input id="acces-adresse" name="adresse" type="text" autocomplete="street-address" placeholder="Ex. 10 rue de la Paix, Le Mans">
+                <button class="btn" type="submit">Calculer</button>
+              </div>
+              <button class="acces__locate" type="button" data-acces-locate>
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg>
+                Utiliser ma position
+              </button>
+            </form>
+            <p class="acces__status" data-acces-status aria-live="polite"></p>
+            <div class="acces__result" data-acces-result hidden>
+              <p class="acces__summary" data-acces-summary aria-live="polite"></p>
+              <div class="acces__modes">
+                <button class="mode" type="button" data-mode="foot" aria-pressed="true">
+                  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="2"/><path d="M10 22l2-7 3 3v4M7 13l2-5 4 1 3 4M12 15l-2-6"/></svg>
+                  <span class="mode__label">À pied</span>
+                  <strong class="mode__time" data-time-foot>—</strong>
+                  <span class="mode__dist" data-dist-foot></span>
+                </button>
+                <button class="mode" type="button" data-mode="car" aria-pressed="false">
+                  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><path d="M5 12h14"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+                  <span class="mode__label">En voiture</span>
+                  <strong class="mode__time" data-time-car>—</strong>
+                  <span class="mode__dist" data-dist-car></span>
+                </button>
+                <a class="mode mode--link" data-acces-transit href="#" target="_blank" rel="noopener">
+                  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l-2-4M15 21l2-4"/><circle cx="9" cy="14" r=".5"/><circle cx="15" cy="14" r=".5"/></svg>
+                  <span class="mode__label">Tram / bus</span>
+                  <strong class="mode__time">Itinéraire</strong>
+                  <span class="mode__dist">via Google Maps ↗</span>
+                </a>
+              </div>
+            </div>
+            <p class="acces__privacy">Votre adresse sert uniquement au calcul du trajet et n'est pas enregistrée.</p>
+          </div>
+          <div class="acces__map" data-acces-map role="region" aria-label="Carte du trajet jusqu'à votre coiffeuse"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ───────────── Infos pratiques ───────────── -->
     <section class="section" id="infos" aria-labelledby="infos-title">
       <div class="wrap">
@@ -275,5 +328,7 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/services.js"></script>
   <script src="assets/js/app.js"></script>
+  <script src="assets/vendor/leaflet/leaflet.js"></script>
+  <script src="assets/js/acces.js"></script>
 </body>
 </html>
