@@ -34,7 +34,7 @@
   }
 
   function layer(p) {
-    const src = `assets/galerie/${p.id}-s.webp`;
+    const src = `assets/galerie/${p.id}-s.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`;
     const d = document.createElement("span");
     d.className = "teaser__layer";
     const bg = new Image(); bg.className = "teaser__bg"; bg.alt = ""; bg.src = src; bg.setAttribute("aria-hidden", "true");

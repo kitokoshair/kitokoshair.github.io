@@ -93,7 +93,7 @@
     const book = it.fam ? `index.html?prestation=${encodeURIComponent(it.fam.id)}#reserver` : "index.html#reserver";
     return el("li", { class: "shot" },
       el("button", { class: "shot__open", type: "button", "aria-label": `Agrandir la photo : ${it.title}`, onclick: () => openViewer(it.index) },
-        el("img", { src: `assets/galerie/${it.id}-s.webp`, alt: it.title, width: it.w, height: it.h, loading: "lazy", decoding: "async" })
+        el("img", { src: `assets/galerie/${it.id}-s.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`, alt: it.title, width: it.w, height: it.h, loading: "lazy", decoding: "async" })
       ),
       el("div", { class: "shot__body" },
         el("p", { class: "shot__cat", text: it.groupName }),
@@ -130,13 +130,13 @@
     const pos = (list.findIndex((it) => it.index === i) + list.length) % list.length;
     const it = list[pos]; current = it.index;
     const img = $("[data-viewer-img]", dlg);
-    img.src = `assets/galerie/${it.id}.webp`; img.alt = it.title;
+    img.src = `assets/galerie/${it.id}.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`; img.alt = it.title;
     $("[data-viewer-title]", dlg).textContent = it.title;
     $("[data-viewer-meta]", dlg).textContent = `${it.groupName} · ${it.price}`;
     $("[data-viewer-book]", dlg).href = it.fam ? `index.html?prestation=${encodeURIComponent(it.fam.id)}#reserver` : "index.html#reserver";
     $("[data-viewer-pos]", dlg).textContent = `${pos + 1} / ${list.length}`;
     // Précharger la suivante
-    const next = list[(pos + 1) % list.length]; if (next) new Image().src = `assets/galerie/${next.id}.webp`;
+    const next = list[(pos + 1) % list.length]; if (next) new Image().src = `assets/galerie/${next.id}.webp?v=${window.KITOKO_GALLERY_VERSION || 1}`;
   }
   const step = (d) => {
     const list = visible.length ? visible : items;
