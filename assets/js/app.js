@@ -39,7 +39,11 @@
 
   const familyById = (id) => CAT.families.find((f) => f.id === id);
   const sizeById = (id) => CAT.sizes.find((s) => s.id === id);
-  const minPrice = Math.min(...CAT.families.flatMap((f) => f.variants.map((v) => v[2])));
+  const groupById = (id) => CAT.groups.find((g) => g.id === id);
+  // Prix d'appel de l'accueil : coiffures uniquement (hors soins et ongles)
+  const minPrice = Math.min(...CAT.families.filter((f) => !groupById(f.group)?.noHair).flatMap((f) => f.variants.map((v) => v[2])));
+  // Un supplément est-il proposé pour ce groupe de prestations ?
+  const extraFits = (x, groupId) => !groupId || (x.only ? x.only.includes(groupId) : !(x.except || []).includes(groupId));
 
   /* ───────── Infos de contact ───────── */
   function fillBusiness() {
@@ -96,11 +100,13 @@
   }
 
   function priceCard(f) {
-    const book = el("button", { class: "price-card__book", type: "button", text: "Réserver cette coiffure", onclick: () => startWith(f.id) });
+    const book = el("button", { class: "price-card__book", type: "button", text: "Réserver cette prestation", onclick: () => startWith(f.id) });
+    const note = f.note ? el("p", { class: "price-card__note", text: f.note }) : null;
     if (f.variants.length === 1 && !f.sizes) {
       const [, , price, from] = f.variants[0];
       return el("article", { class: "price-card price-card--single" },
         el("div", { class: "price-card__row" }, el("h3", { text: f.name }), el("p", { class: "price-card__price", text: (from ? "dès " : "") + euro(price) })),
+        note,
         book
       );
     }
@@ -115,6 +121,7 @@
     return el("article", { class: "price-card" },
       el("h3", { text: f.name }),
       el("table", { class: "price-table" }, el("thead", {}, head), el("tbody", {}, rows)),
+      note,
       book
     );
   }
@@ -186,7 +193,7 @@
   /* Étape 1 */
   function buildStep1() {
     const sel = $("[data-family-select]");
-    sel.append(el("option", { value: "", text: "Choisir une coiffure…" }));
+    sel.append(el("option", { value: "", text: "Choisir une prestation…" }));
     CAT.groups.forEach((g) => {
       const og = el("optgroup", { label: g.label });
       CAT.families.filter((f) => f.group === g.id).forEach((f) => og.append(el("option", { value: f.id, text: f.name })));
@@ -195,7 +202,7 @@
     sel.addEventListener("change", () => setFamily(sel.value));
 
     $("[data-extra-checks]").append(...CAT.extras.map((x) =>
-      el("label", { class: "check" },
+      el("label", { class: "check", "data-extra": x.id },
         el("input", { type: "checkbox", value: x.id, onchange: (e) => { e.target.checked ? state.extras.add(x.id) : state.extras.delete(x.id); refreshSummary(); } }),
         el("span", { text: x.label }),
         el("b", { text: `${x.from ? "dès " : ""}+${euro(x.price)}` })
@@ -205,7 +212,7 @@
     $('[data-step="1"]').addEventListener("submit", (e) => {
       e.preventDefault();
       const f = currentFamily();
-      if (!f) return flash("[data-family-select]", "Choisissez une coiffure.");
+      if (!f) return flash("[data-family-select]", "Choisissez une prestation.");
       if (!state.variant) return flash("[data-variant-chips]", `Choisissez : ${f.variantLabel.toLowerCase()}.`);
       if (f.sizes && !state.size) return flash("[data-size-chips]", "Choisissez la taille des tresses.");
       goTo(2);
@@ -230,6 +237,21 @@
     const sField = $("[data-size-field]"); const sChips = $("[data-size-chips]"); sChips.replaceChildren();
     sField.hidden = !(f && f.sizes);
     if (f && f.sizes) CAT.sizes.forEach((s) => sChips.append(chip("size", s.id, s.label, s.extra ? `+${euro(s.extra)}` : "sans supplément", () => { state.size = s.id; refreshSummary(); })));
+
+    // Précision sur la prestation (durée, produits inclus…)
+    const fNote = $("[data-family-note]");
+    fNote.textContent = f?.note || ""; fNote.hidden = !f?.note;
+
+    // Suppléments adaptés à la prestation (pas de perles sur des ongles…)
+    for (const x of CAT.extras) {
+      const fits = extraFits(x, f?.group);
+      const box = $(`[data-extra="${x.id}"]`);
+      if (box) box.hidden = !fits;
+      if (!fits) { state.extras.delete(x.id); if (box) box.querySelector("input").checked = false; }
+    }
+    // Question « mèches » seulement pour les coiffures
+    const hairField = $("[data-hair-field]");
+    if (hairField) hairField.hidden = !!(f && groupById(f.group)?.noHair);
     state.time = null; state.date = null;
     refreshSummary();
   }
@@ -335,7 +357,7 @@
     $$(".cal__day").forEach((b) => b.setAttribute("aria-pressed", b.getAttribute("aria-label").startsWith(dateLong(ds)) ? "true" : "false"));
     const wrap = $("[data-slots-wrap]"); wrap.hidden = false;
     const dur = duration();
-    $("[data-slots-title]").textContent = `Heure d'arrivée le ${dateLong(ds)} (séance d'environ ${Math.round(dur / 60)} h)`;
+    $("[data-slots-title]").textContent = `Heure d'arrivée le ${dateLong(ds)} (durée ${dur < 60 ? dur + " min" : Math.floor(dur / 60) + " h" + (dur % 60 ? " " + pad(dur % 60) : "")} environ)`;
     $("[data-slots]").replaceChildren(...slots.map((t) => {
       const end = fromMin(toMin(t) + dur);
       return chip("slot", t, hhFr(t), `fin vers ${hhFr(end)}`, () => { state.time = t; $("[data-slot-error]").hidden = true; $("[data-to-step3]").disabled = false; refreshSummary(); }, state.time === t);
@@ -386,7 +408,7 @@
         date: state.date, time: state.time, durationMinutes: duration(),
         firstName: fd.get("firstName").trim(), lastName: fd.get("lastName").trim(),
         email: fd.get("email").trim(), phone: fd.get("phone").trim(),
-        hairSupply: fd.get("hairSupply"), photoUrl: (fd.get("photoUrl") || "").trim(), notes: (fd.get("notes") || "").trim(),
+        hairSupply: $("[data-hair-field]")?.hidden ? "Sans objet" : fd.get("hairSupply"), photoUrl: (fd.get("photoUrl") || "").trim(), notes: (fd.get("notes") || "").trim(),
         deposit: CFG.deposit.enabled ? Math.round(p.total * CFG.deposit.percent) / 100 : 0,
       };
 
