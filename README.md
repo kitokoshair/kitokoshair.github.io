@@ -28,6 +28,7 @@ Les clientes choisissent leur coiffure, voient le prix exact et réservent un cr
 - **Plan d'accès** : la cliente entre son adresse et voit tout de suite son temps de trajet à pied et en voiture, avec le chemin sur la carte (et un lien pour le tram ou le bus).
 - Un **e-mail de confirmation** avec un lien pour annuler facilement.
 - Un site agréable sur téléphone comme sur ordinateur.
+- **Application à installer** gratuitement sur iPhone et Android, depuis le site (bouton « Installer l'appli »), sans passer par l'App Store.
 
 **Pour la coiffeuse**
 - Chaque demande arrive **directement dans son Google Agenda** et par e-mail.

@@ -13,9 +13,14 @@
   <meta property="og:url" content="https://kitokoshair.github.io/galerie.html">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Kitoko's Hair">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="preload" href="assets/fonts/unbounded-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=20261114k">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261114m">
 </head>
 <body class="page-galerie">
   <a class="skip" href="#galerie">Aller aux photos</a>
@@ -110,13 +115,15 @@
         <li><a data-phone href="#">Téléphone</a></li>
         <li><a data-email href="#">E-mail</a></li>
       </ul>
+      <button class="install-btn install-btn--foot" type="button" data-install hidden><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>Installer l'appli Kitoko's Hair</button>
       <p class="foot__legal">Vos coordonnées servent uniquement à gérer votre rendez-vous et ne sont jamais revendues. Pour les faire supprimer, écrivez-nous.</p>
     </div>
   </footer>
 
-  <script src="assets/js/config.js?v=20261114k"></script>
-  <script src="assets/js/services.js?v=20261114k"></script>
-  <script src="assets/js/galerie-data.js?v=20261114k"></script>
-  <script src="assets/js/galerie.js?v=20261114k"></script>
+  <script src="assets/js/config.js?v=20261114m"></script>
+  <script src="assets/js/services.js?v=20261114m"></script>
+  <script src="assets/js/galerie-data.js?v=20261114m"></script>
+  <script src="assets/js/galerie.js?v=20261114m"></script>
+  <script src="assets/js/pwa.js?v=20261114m"></script>
 </body>
 </html>
