@@ -51,7 +51,7 @@
             <a class="btn btn--ghost" href="#tarifs">Voir les tarifs</a>
           </div>
           <dl class="hero__facts">
-            <div><dt>Séance</dt><dd>environ 6&nbsp;h</dd></div>
+            <div><dt>Tresses</dt><dd>environ 6&nbsp;h</dd></div>
             <div><dt>À partir de</dt><dd data-min-price>20&nbsp;€</dd></div>
             <div><dt>À domicile</dt><dd>possible au Mans</dd></div>
           </dl>
@@ -69,9 +69,9 @@
       <div class="wrap">
         <div class="section__head">
           <h2 id="tarifs-title">Tarifs</h2>
-          <p>Le prix dépend de la longueur et de la taille des tresses. Taille S&nbsp;: +10&nbsp;€, taille M&nbsp;: +5&nbsp;€, taille L&nbsp;: sans supplément. Les colonnes ci-dessous incluent déjà la taille.</p>
+          <p>Coiffures, soins, lissages et ongles avec <strong>Kitoko's Nail</strong>. Pour les tresses, le prix dépend de la longueur et de la taille&nbsp;: taille S&nbsp;: +10&nbsp;€, taille M&nbsp;: +5&nbsp;€, taille L&nbsp;: sans supplément. Les colonnes ci-dessous incluent déjà la taille.</p>
         </div>
-        <div class="tabs" role="tablist" aria-label="Familles de coiffures" data-tabs></div>
+        <div class="tabs" role="tablist" aria-label="Familles de prestations" data-tabs></div>
         <div class="price-panels" data-price-panels></div>
         <div class="extras-note">
           <h3>Suppléments</h3>
@@ -85,12 +85,12 @@
       <div class="wrap">
         <div class="section__head section__head--light">
           <h2 id="reserver-title">Réserver une séance</h2>
-          <p>Les créneaux affichés sont ceux réellement libres dans l'agenda. Les réservations se font <strong>au moins 24&nbsp;h à l'avance</strong>. Une séance bloque environ 6&nbsp;heures.</p>
+          <p>Les créneaux affichés sont ceux réellement libres dans l'agenda. Les réservations se font <strong>au moins 24&nbsp;h à l'avance</strong>. La durée dépend de la prestation&nbsp;: environ 6&nbsp;heures pour des tresses, beaucoup moins pour un soin ou les ongles.</p>
         </div>
 
         <div class="booker" data-booker>
           <ol class="steps" aria-label="Étapes de la réservation">
-            <li data-step-tab="1" aria-current="step"><span>1</span>Coiffure</li>
+            <li data-step-tab="1" aria-current="step"><span>1</span>Prestation</li>
             <li data-step-tab="2"><span>2</span>Date et heure</li>
             <li data-step-tab="3"><span>3</span>Vos coordonnées</li>
             <li data-step-tab="4"><span>4</span>Confirmation</li>
@@ -100,11 +100,12 @@
             <!-- Étape 1 : coiffure -->
             <form class="step" data-step="1" novalidate>
               <fieldset>
-                <legend>Quelle coiffure&nbsp;?</legend>
+                <legend>Quelle prestation&nbsp;?</legend>
                 <label class="field">
-                  <span>Coiffure</span>
+                  <span>Coiffure, soin ou ongles</span>
                   <select name="family" required data-family-select></select>
                 </label>
+                <p class="field-note" data-family-note hidden></p>
                 <div class="field" data-variant-field>
                   <span data-variant-label>Longueur</span>
                   <div class="chips" data-variant-chips role="radiogroup"></div>
@@ -163,7 +164,7 @@
                   <label class="field"><span>E-mail</span><input name="email" type="email" autocomplete="email" required></label>
                   <label class="field"><span>Téléphone</span><input name="phone" type="tel" autocomplete="tel" required></label>
                 </div>
-                <div class="field">
+                <div class="field" data-hair-field>
                   <span>Mèches</span>
                   <div class="chips" role="radiogroup">
                     <label class="chip"><input type="radio" name="hairSupply" value="J'apporte mes mèches" checked><span>J'apporte mes mèches</span></label>
@@ -207,7 +208,7 @@
           <aside class="summary" aria-label="Récapitulatif">
             <h3>Votre séance</h3>
             <dl class="summary__list" data-summary>
-              <div><dt>Coiffure</dt><dd data-sum-service>—</dd></div>
+              <div><dt>Prestation</dt><dd data-sum-service>—</dd></div>
               <div><dt>Suppléments</dt><dd data-sum-extras>Aucun</dd></div>
               <div><dt>Date</dt><dd data-sum-date>—</dd></div>
               <div class="summary__total"><dt>Total</dt><dd data-sum-total>—</dd></div>
@@ -301,7 +302,7 @@
             <h3>À domicile</h3>
             <ul>
               <li>Déplacement à partir de 10&nbsp;€ dans les zones du Mans desservies en bus ou en tram.</li>
-              <li>Cochez «&nbsp;Coiffure à domicile&nbsp;» au moment de réserver et indiquez votre adresse dans le message.</li>
+              <li>Cochez «&nbsp;Prestation à domicile&nbsp;» au moment de réserver et indiquez votre adresse dans le message.</li>
             </ul>
           </article>
         </div>
