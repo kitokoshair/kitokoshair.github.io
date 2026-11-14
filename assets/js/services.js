@@ -10,6 +10,10 @@
  *    variants     : [id, libellé, prix, "from" si prix « à partir de »]
  *    sizes        : true si la cliente choisit une taille S / M / L
  *    duration     : durée en minutes (sinon durée par défaut du config.js)
+ *    note         : petite précision affichée sous la prestation
+ *
+ *  group.noHair = true : pas de question « mèches » (soins, ongles)
+ *  extra.only / extra.except : groupes où le supplément est proposé
  */
 window.KITOKO_SERVICES = {
   // Suppléments de taille (ajoutés au prix de la longueur)
@@ -27,6 +31,8 @@ window.KITOKO_SERVICES = {
     { id: "nattes", label: "Nattes collées" },
     { id: "tissage", label: "Tissage" },
     { id: "homme", label: "Homme" },
+    { id: "soins", label: "Soins & lissage", noHair: true },
+    { id: "nails", label: "Kitoko's Nail", noHair: true },
   ],
 
   families: [
@@ -151,6 +157,11 @@ window.KITOKO_SERVICES = {
       variants: [["epaule", "Épaule", 25], ["dos", "Dos", 35]],
     },
     {
+      id: "bantu-knots", group: "boucles", name: "Bantu knots", sizes: false,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 35]],
+    },
+    {
       id: "passion-twist", group: "twists", name: "Passion twist", sizes: false,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 35]],
@@ -212,22 +223,95 @@ window.KITOKO_SERVICES = {
       variants: [["ferme", "Fermé", 45], ["ouvert", "Ouvert", 40], ["meche-incluse", "Mèches incluses", 40, "from"]],
     },
 
+    {
+      id: "half-braids", group: "tissage", name: "Half braids / Half sew-in", sizes: false,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 55]],
+    },
+
     // ── Homme ───────────────────────────────────────────────
     {
       id: "homme", group: "homme", name: "Coiffures homme", sizes: false,
       variantLabel: "Coiffure",
       variants: [["barrel", "Barrel twist", 30], ["vanille", "Vanille", 35], ["nattes-libres", "Nattes libres", 20], ["nattes-collees", "Nattes collées", 20], ["zigzag-cornrow", "Zigzag cornrow", 30], ["stitch-cornrow", "Stitch cornrow", 25], ["filant-twist", "Filant twist", 25]],
     },
+
+    // ── Soins & lissage ─────────────────────────────────────
+    {
+      id: "lissage-tanin", group: "soins", name: "Lissage au tanin", sizes: false, duration: 240,
+      note: "Prestation et produits inclus · tient 5 à 6 mois",
+      variantLabel: "Longueur",
+      variants: [["courts", "Courts (au-dessus des épaules)", 145], ["mi-longs", "Mi-longs (épaules / clavicules)", 190], ["longs", "Longs (milieu du dos)", 210], ["tres-longs", "Très longs, très épais ou afro", 235]],
+    },
+    {
+      id: "lissage-keratine", group: "soins", name: "Lissage à la kératine", sizes: false, duration: 240,
+      note: "Prestation et produits inclus · tient 5 à 6 mois",
+      variantLabel: "Longueur",
+      variants: [["courts", "Courts (au-dessus des épaules)", 125], ["mi-longs", "Mi-longs (épaules / clavicules)", 170], ["longs", "Longs (milieu du dos)", 190], ["tres-longs", "Très longs, très épais ou afro", 215]],
+    },
+    {
+      id: "brushing", group: "soins", name: "Brushing", sizes: false, duration: 60,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 30]],
+    },
+    {
+      id: "lissage-temporaire", group: "soins", name: "Lissage temporaire", sizes: false, duration: 90,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 40]],
+    },
+    {
+      id: "defrisage", group: "soins", name: "Défrisage (produits chimiques)", sizes: false, duration: 120,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 45]],
+    },
+
+    // ── Kitoko's Nail ───────────────────────────────────────
+    {
+      id: "pose-complete", group: "nails", name: "Pose complète (capsules + gel)", sizes: false, duration: 90,
+      variantLabel: "Finition",
+      variants: [["unie", "Couleur unie ou nude", 35], ["couleur", "+ 1 couleur (vernis couleur unie)", 40], ["french", "French", 40], ["baby-boomer", "Baby-boomer (dégradé rosé / blanc)", 45]],
+    },
+    {
+      id: "remplissage", group: "nails", name: "Remplissage", sizes: false, duration: 60,
+      note: "Conseillé toutes les 3 semaines",
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 25]],
+    },
+    {
+      id: "reparation-ongle", group: "nails", name: "Réparation d'un ongle cassé", sizes: false, duration: 30,
+      note: "5 € par ongle",
+      variantLabel: "Nombre d'ongles",
+      variants: [["1", "1 ongle", 5], ["2", "2 ongles", 10], ["3", "3 ongles", 15], ["4", "4 ongles", 20], ["5", "5 ongles", 25]],
+    },
+    {
+      id: "depose", group: "nails", name: "Dépose seule", sizes: false, duration: 30,
+      note: "Retrait complet + soin fortifiant · offerte si nouvelle pose",
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 20]],
+    },
+    {
+      id: "soin-pieds-hydratation", group: "nails", name: "Soin des pieds — Hydratation & douceur", sizes: false, duration: 45,
+      note: "45 min",
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 30]],
+    },
+    {
+      id: "soin-pieds-express", group: "nails", name: "Soin des pieds — Express & nettoyage", sizes: false, duration: 30,
+      note: "30 min",
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 20]],
+    },
   ],
 
   // Suppléments à cocher
   extras: [
-    { id: "koroba", label: "Koroba braids", price: 10 },
-    { id: "boheme", label: "Version bohème", price: 5 },
-    { id: "perles", label: "Pose des perles", price: 5 },
-    { id: "coiffage-locs", label: "Coiffage des locks", price: 10 },
-    { id: "shampoing", label: "Shampoing", price: 10, hint: "Si vous ne venez pas les cheveux propres" },
-    { id: "demelant", label: "Démêlant", price: 5 },
-    { id: "domicile", label: "Coiffure à domicile (Le Mans, bus ou tram)", price: 10, from: true },
+    { id: "koroba", label: "Koroba braids", price: 10, except: ["soins", "nails"] },
+    { id: "boheme", label: "Version bohème", price: 5, except: ["soins", "nails"] },
+    { id: "perles", label: "Pose des perles", price: 5, except: ["soins", "nails"] },
+    { id: "coiffage-locs", label: "Coiffage des locks", price: 10, except: ["soins", "nails"] },
+    { id: "shampoing", label: "Shampoing", price: 10, hint: "Si vous ne venez pas les cheveux propres", except: ["nails"] },
+    { id: "demelant", label: "Démêlant", price: 5, except: ["nails"] },
+    { id: "nail-art", label: "Nail art (ongles)", price: 5, only: ["nails"] },
+    { id: "domicile", label: "Prestation à domicile (Le Mans, bus ou tram)", price: 10, from: true },
   ],
 };
