@@ -7,7 +7,7 @@
 **Le site de réservation de KITOKO's HAIR, coiffeuse spécialisée en tresses, locs et twists au Mans.**
 Les clientes choisissent leur coiffure, voient le prix exact et réservent un créneau libre dans l'agenda de la coiffeuse, en quelques clics.
 
-### [👉 Voir le site](https://dokceles.github.io/Kitokos-hair/)
+### [👉 Voir le site](https://kitokoshair.github.io/)
 
 📞 06 44 89 17 22 · 📸 [@kitoko_hair_officiel](https://www.instagram.com/kitoko_hair_officiel)
 
