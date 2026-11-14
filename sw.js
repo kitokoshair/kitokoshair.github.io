@@ -7,7 +7,7 @@
    - Agenda, cartes, recherche d'adresse : jamais mis en cache.
    Changer VERSION à chaque mise à jour importante du site.
    ───────────────────────────────────────────────────────────── */
-const VERSION = "kitoko-2026-11-14";
+const VERSION = "kitoko-2026-11-14b";
 const CORE = [
   "./", "index.html", "galerie.html", "offline.html", "manifest.webmanifest",
   "assets/css/style.css", "assets/js/config.js", "assets/js/services.js", "assets/js/app.js",
@@ -38,7 +38,7 @@ self.addEventListener("fetch", (e) => {
   if (req.mode === "navigate") {
     e.respondWith((async () => {
       try {
-        const res = await fetch(req);
+        const res = await fetch(req, { cache: "no-cache" }); // toujours vérifier la dernière version
         const c = await caches.open(VERSION); c.put(req, res.clone());
         return res;
       } catch {
@@ -49,11 +49,13 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // Fichiers du site : cache puis mise à jour en arrière-plan
+  // Fichiers du site : la version exacte demandée (?v=…) depuis le cache, sinon le réseau.
+  // Une ancienne version n'est utilisée qu'en dernier recours, hors connexion.
   e.respondWith((async () => {
     const c = await caches.open(VERSION);
-    const cached = await c.match(req) || await c.match(req, { ignoreSearch: true });
+    const exact = await c.match(req);
     const network = fetch(req).then((res) => { if (res.ok) c.put(req, res.clone()); return res; }).catch(() => null);
-    return cached || (await network) || new Response("", { status: 504 });
+    if (exact) return exact;
+    return (await network) || (await c.match(req, { ignoreSearch: true })) || new Response("", { status: 504 });
   })());
 });
