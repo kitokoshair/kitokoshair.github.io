@@ -18,7 +18,8 @@ Les clientes choisissent leur coiffure, voient le prix exact et réservent un cr
 ## Ce que propose le site
 
 **Pour les clientes**
-- **Plus de 30 coiffures** classées par famille : tresses, courtes et bouclées, twists, locs, nattes collées, tissage et homme.
+- **Plus de 35 coiffures** classées par famille : tresses, courtes et bouclées, twists, locs, nattes collées, tissage et homme.
+- **Soins & lissage** (brushing, lissage temporaire, défrisage, lissage au tanin ou à la kératine) et **Kitoko's Nail** pour les ongles et les soins des pieds.
 - **Prix affiché tout de suite** selon la longueur et la taille des tresses (S, M ou L), avec les suppléments choisis (perles, version bohème, shampoing…).
 - **Réservation en 4 étapes** : coiffure, date et heure, coordonnées, confirmation.
 - **Calendrier toujours à jour** : seuls les créneaux réellement libres sont proposés, **7 jours sur 7, de 9 h à 18 h**.
