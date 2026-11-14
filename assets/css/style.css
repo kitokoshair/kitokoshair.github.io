@@ -401,6 +401,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ───────── Mention « photos d'inspiration » ───────── */
+.inspi-note {
+  display: flex; align-items: flex-start; gap: .7rem; max-width: 46rem; margin-top: 1.4rem;
+  padding: .9rem 1.1rem; border-radius: var(--radius-m); background: var(--gold-soft);
+  border: 1.5px solid var(--gold); color: var(--ink); line-height: 1.5;
+}
+.inspi-note svg { flex: none; margin-top: .1rem; color: var(--fuchsia); }
+.inspi-note--compact { margin: 1.2rem auto 0; font-size: var(--step--1); padding: .7rem .95rem; }
+
 /* ───────── Aperçu de la galerie (accueil) ───────── */
 .teaser { padding-top: clamp(2.5rem, 6vw, 4.5rem); }
 .teaser__grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 1rem; height: clamp(320px, 38vw, 480px); }
