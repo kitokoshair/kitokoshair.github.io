@@ -6,10 +6,10 @@
  * options  : suppléments cochés d'avance quand on réserve depuis la photo (ex. ["boheme"])
  * Après avoir remplacé des photos, augmenter KITOKO_GALLERY_VERSION pour vider le cache.
  */
-window.KITOKO_GALLERY_VERSION = "6";
+window.KITOKO_GALLERY_VERSION = "7";
 window.KITOKO_GALLERY = [
   {"id": "knotless-braids", "title": "Knotless braids", "family": "knotless", "group": "tresses", "keywords": "sans noeud box braids", "w": 293, "h": 520},
-  {"id": "boho-braids", "title": "Boho braids", "family": "knotless", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 516, "h": 520, "options": ["boheme"]},
+  {"id": "boho-braids", "title": "Boho braids", "family": "boho-braids", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 516, "h": 520},
   {"id": "lemonade-braids", "title": "Lemonade braids", "family": "lemonade", "group": "tresses", "keywords": "limonade côté", "w": 284, "h": 520},
   {"id": "fulani-braids", "title": "Fulani braids", "family": "fulani-braids", "group": "tresses", "keywords": "fulani", "w": 425, "h": 520},
   {"id": "two-steps-braids", "title": "Two steps braids", "family": "two-steps", "group": "tresses", "keywords": "", "w": 520, "h": 300},
@@ -22,13 +22,14 @@ window.KITOKO_GALLERY = [
   {"id": "stitch-braids", "title": "Stitch braids", "family": "nattes-rajout", "group": "nattes", "keywords": "stick nattes collées rajout", "w": 520, "h": 353},
   {"id": "french-curly", "title": "French curly", "family": "french-curly", "group": "french", "keywords": "bouclé curls", "w": 339, "h": 520},
   {"id": "shuku-with-curls", "title": "Shuku with curls", "family": "shuku-curls", "group": "shuku", "keywords": "chignon bouclé", "w": 520, "h": 348},
-  {"id": "short-lemonade-braids", "title": "Short lemonade braids", "family": "short-lemonade", "group": "boucles", "keywords": "limonade courte", "w": 381, "h": 520},
-  {"id": "short-bob-braids", "title": "Short bob braids", "family": "short-bob", "group": "boucles", "keywords": "carré court", "w": 520, "h": 282},
+  {"id": "boho-short-lemonade-braids", "title": "Boho short lemonade braids", "family": "short-lemonade", "group": "boucles", "keywords": "limonade courte", "w": 381, "h": 520},
+  {"id": "short-bob-braids", "title": "Short bob braids", "family": "short-bob", "group": "boucles", "keywords": "carré court", "w": 458, "h": 520},
   {"id": "mermaid-braids", "title": "Mermaid braids", "family": "mermaid", "group": "boucles", "keywords": "sirène bouclé", "w": 373, "h": 520},
   {"id": "short-french-curl-braids", "title": "Short French curl braids", "family": "short-french-curls", "group": "boucles", "keywords": "bouclé courte curls", "w": 368, "h": 520},
   {"id": "bantu-knots", "title": "Bantu knots", "family": "bantu-knots", "group": "boucles", "keywords": "chignons", "w": 318, "h": 520},
   {"id": "vanilles", "title": "Vanilles", "family": "vanilles", "group": "twists", "keywords": "twist", "w": 357, "h": 520},
-  {"id": "fulani-twist", "title": "Fulani twist", "family": "fulani-twist", "group": "twists", "keywords": "", "w": 479, "h": 475},
+  {"id": "twist-simple", "title": "Twist simple", "family": "twist-simple", "group": "twists", "keywords": "twists naturels mèches humaines", "w": 344, "h": 520},
+  {"id": "fulani-twist-homme", "title": "Fulani twist homme", "family": "homme", "group": "homme", "keywords": "garçon fulani twist nattes", "w": 479, "h": 475},
   {"id": "marley-twist", "title": "Marley twist", "family": "marley", "group": "twists", "keywords": "", "w": 300, "h": 520},
   {"id": "passion-twist", "title": "Passion twist", "family": "passion-twist", "group": "twists", "keywords": "", "w": 478, "h": 520},
   {"id": "butterfly-locs", "title": "Butterfly locs", "family": "butterfly-locs", "group": "locs", "keywords": "", "w": 450, "h": 520},

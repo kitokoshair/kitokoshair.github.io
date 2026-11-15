@@ -43,6 +43,12 @@
   // Prix d'appel de l'accueil : coiffures uniquement (hors soins et ongles)
   const minPrice = Math.min(...CAT.families.filter((f) => !groupById(f.group)?.noHair).flatMap((f) => f.variants.map((v) => v[2])));
   // Un supplément est-il proposé pour ce groupe de prestations ?
+  // Choix de mèches payants d'une prestation, pour une longueur donnée : [{ id, label, price }]
+  const hairList = (f) => f ? (f.hair || (f.meches ? [{ id: "incluses", label: "Mèches incluses", price: f.meches }] : [])) : [];
+  const hairOptions = (f, vid) => hairList(f)
+    .map((o) => ({ ...o, price: typeof o.price === "object" ? o.price[vid] : o.price }))
+    .filter((o) => typeof o.price === "number");
+  const hairNoneLabel = (f) => (f?.group === "tissage" ? "J'apporte mon tissage" : "J'apporte mes mèches");
   const extraFits = (x, groupId) => !groupId || (x.only ? x.only.includes(groupId) : !(x.except || []).includes(groupId));
 
   /* ───────── Infos de contact ───────── */
@@ -99,9 +105,23 @@
     );
   }
 
+  function hairNote(f) {
+    const list = hairList(f);
+    if (!list.length) return null;
+    const many = f.variants.length > 1 || f.sizes;
+    const items = list.flatMap((o) => {
+      if (typeof o.price === "number") return [`${o.label} : +${euro(o.price)}${many ? " (toutes longueurs" + (f.sizes ? " et tailles)" : ")") : ""}`];
+      // Prix selon la longueur / le modèle : regrouper par montant
+      const byPrice = new Map();
+      for (const [vid, label] of f.variants) if (typeof o.price[vid] === "number") byPrice.set(o.price[vid], [...(byPrice.get(o.price[vid]) || []), label]);
+      return [...byPrice].map(([pr, labels]) => `${o.label} : +${euro(pr)} (${labels.join(", ")})`);
+    });
+    return el("ul", { class: "price-card__hair", "aria-label": "Options mèches" }, ...items.map((t) => el("li", { text: t })));
+  }
+
   function priceCard(f) {
     const book = el("button", { class: "price-card__book", type: "button", text: "Réserver cette prestation", onclick: () => startWith(f.id) });
-    const note = f.note ? el("p", { class: "price-card__note", text: f.note }) : null;
+    const note = f.note || hairList(f).length ? el("div", {}, f.note ? el("p", { class: "price-card__note", text: f.note }) : null, hairNote(f)) : null;
     if (f.variants.length === 1 && !f.sizes) {
       const [, , price, from] = f.variants[0];
       return el("article", { class: "price-card price-card--single" },
@@ -127,7 +147,7 @@
   }
 
   /* ───────── Réservation : état ───────── */
-  const state = { family: null, variant: null, size: null, extras: new Set(), date: null, time: null };
+  const state = { family: null, variant: null, size: null, hair: "sans", extras: new Set(), date: null, time: null };
   const busyCache = new Map(); // "YYYY-MM" -> [{s, e}] en minutes absolues
 
   const currentFamily = () => familyById(state.family);
@@ -142,6 +162,8 @@
     let total = v[2];
     lines.push([`${f.name} — ${v[1]}${f.sizes ? `, taille ${state.size}` : ""}`, v[2]]);
     if (f.sizes) { const s = sizeById(state.size); total += s.extra; lines.push([`Taille ${s.label}`, s.extra]); }
+    const hair = hairOptions(f, state.variant).find((o) => o.id === state.hair);
+    if (hair) { total += hair.price; lines.push([hair.label, hair.price]); }
     for (const x of CAT.extras) if (state.extras.has(x.id)) { total += x.price; lines.push([x.label, x.price]); }
     if (state.time && B.eveningSurcharge && toMin(state.time) >= toMin(B.eveningSurcharge.from)) {
       total += B.eveningSurcharge.amount; lines.push([`Rendez-vous après ${hhFr(B.eveningSurcharge.from)}`, B.eveningSurcharge.amount]);
@@ -161,7 +183,8 @@
     const totalTxt = p ? (p.from ? "dès " : "") + euro(p.total) : "—";
     $("[data-total]").textContent = totalTxt;
     $("[data-sum-service]").textContent = serviceLabel();
-    const ex = CAT.extras.filter((x) => state.extras.has(x.id)).map((x) => x.label);
+    const hairSel = hairOptions(currentFamily(), state.variant).find((o) => o.id === state.hair);
+    const ex = [...(hairSel ? [hairSel.label] : []), ...CAT.extras.filter((x) => state.extras.has(x.id)).map((x) => x.label)];
     $("[data-sum-extras]").textContent = ex.length ? ex.join(", ") : "Aucun";
     $("[data-sum-date]").textContent = state.date && state.time ? `${dateLong(state.date)}, ${hhFr(state.time)}` : state.date ? dateLong(state.date) : "—";
     $("[data-sum-total]").textContent = totalTxt;
@@ -221,7 +244,7 @@
   }
 
   function setFamily(id) {
-    state.family = id || null; state.variant = null; state.size = null;
+    state.family = id || null; state.variant = null; state.size = null; state.hair = "sans";
     const f = currentFamily();
     $("[data-family-select]").value = id || "";
     const vChips = $("[data-variant-chips]"); vChips.replaceChildren();
@@ -230,7 +253,7 @@
       $("[data-variant-label]").textContent = f.variantLabel;
       vChips.setAttribute("aria-label", f.variantLabel);
       f.variants.forEach(([vid, label, price, from], i) => {
-        vChips.append(chip("variant", vid, label, `${from ? "dès " : ""}${euro(price)}`, () => { state.variant = vid; refreshSummary(); }, f.variants.length === 1 && i === 0));
+        vChips.append(chip("variant", vid, label, `${from ? "dès " : ""}${euro(price)}`, () => { state.variant = vid; renderHair(); refreshSummary(); }, f.variants.length === 1 && i === 0));
       });
       if (f.variants.length === 1) state.variant = f.variants[0][0];
     }
@@ -249,11 +272,26 @@
       if (box) box.hidden = !fits;
       if (!fits) { state.extras.delete(x.id); if (box) box.querySelector("input").checked = false; }
     }
-    // Question « mèches » seulement pour les coiffures
-    const hairField = $("[data-hair-field]");
-    if (hairField) hairField.hidden = !!(f && groupById(f.group)?.noHair);
+    renderHair();
     state.time = null; state.date = null;
     refreshSummary();
+  }
+
+  // Mèches : choix payant à l'étape 1 si la prestation a un prix « mèches incluses »,
+  // sinon l'ancienne question « j'apporte / fournies » à l'étape 3 (coiffures seulement)
+  function renderHair() {
+    const f = currentFamily();
+    const opts = hairOptions(f, state.variant);
+    if (!opts.some((o) => o.id === state.hair)) state.hair = "sans";
+    const field = $("[data-hairprice-field]"); const box = $("[data-hairprice-chips]");
+    box.replaceChildren();
+    field.hidden = !opts.length;
+    if (opts.length) {
+      box.append(chip("hairPrice", "sans", hairNoneLabel(f), "sans supplément", () => { state.hair = "sans"; refreshSummary(); }, state.hair === "sans"));
+      opts.forEach((o) => box.append(chip("hairPrice", o.id, o.label, `+${euro(o.price)}`, () => { state.hair = o.id; refreshSummary(); }, state.hair === o.id)));
+    }
+    const hairField = $("[data-hair-field]");
+    if (hairField) hairField.hidden = !!(f && (groupById(f.group)?.noHair || hairList(f).length && opts.length));
   }
 
   function chip(name, value, label, hint, onPick, checked = false) {
@@ -408,7 +446,7 @@
         date: state.date, time: state.time, durationMinutes: duration(),
         firstName: fd.get("firstName").trim(), lastName: fd.get("lastName").trim(),
         email: fd.get("email").trim(), phone: fd.get("phone").trim(),
-        hairSupply: $("[data-hair-field]")?.hidden ? "Sans objet" : fd.get("hairSupply"), photoUrl: (fd.get("photoUrl") || "").trim(), notes: (fd.get("notes") || "").trim(),
+        hairSupply: hairSupplyText(fd), photoUrl: (fd.get("photoUrl") || "").trim(), notes: (fd.get("notes") || "").trim(),
         deposit: CFG.deposit.enabled ? Math.round(p.total * CFG.deposit.percent) / 100 : 0,
       };
 
@@ -435,6 +473,16 @@
         err.hidden = false;
       } finally { btn.disabled = false; btn.textContent = "Envoyer ma demande"; }
     });
+  }
+
+  function hairSupplyText(fd) {
+    const f = currentFamily();
+    const opts = hairOptions(f, state.variant);
+    if (opts.length) {
+      const o = opts.find((x) => x.id === state.hair);
+      return o ? `${o.label} (+${euro(o.price)})` : hairNoneLabel(f);
+    }
+    return $("[data-hair-field]")?.hidden ? "Sans objet" : fd.get("hairSupply");
   }
 
   const MECHES_FOURNIES = "Mèches fournies par la coiffeuse";

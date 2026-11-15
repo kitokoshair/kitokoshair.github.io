@@ -12,6 +12,11 @@
  *    duration     : durée en minutes (sinon durée par défaut du config.js)
  *    note         : petite précision affichée sous la prestation
  *
+ *    meches       : supplément « mèches incluses » en € (même prix pour toutes les longueurs et tailles)
+ *    hair         : plusieurs choix de mèches : [{ id, label, price }] ;
+ *                   price peut dépendre de la longueur : { epaule: 15, dos: 20 }
+ *                   (sans meches ni hair : question « j'apporte / fournies » comme avant)
+ *
  *  group.noHair = true : pas de question « mèches » (soins, ongles)
  *  extra.only / extra.except : groupes où le supplément est proposé
  */
@@ -24,7 +29,7 @@ window.KITOKO_SERVICES = {
   ],
 
   groups: [
-    { id: "tresses", label: "Tresses" },
+    { id: "tresses", label: "Tresses (Braids)" },
     { id: "boucles", label: "Courtes & bouclées" },
     { id: "french", label: "French curly" },
     { id: "shuku", label: "Shuku with curls" },
@@ -41,11 +46,19 @@ window.KITOKO_SERVICES = {
     // ── Tresses ──────────────────────────────────────────────
     {
       id: "knotless", group: "tresses", name: "Knotless braids", sizes: true,
+      meches: 15,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 30], ["mi-dos", "Mi-dos", 40], ["bas-dos", "Bas du dos", 50], ["bas-fesses", "Bas des fesses", 60]],
     },
     {
+      id: "boho-braids", group: "tresses", name: "Boho braids", sizes: true,
+      meches: 20,
+      variantLabel: "Longueur",
+      variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 45], ["bas-dos", "Bas du dos", 55], ["bas-fesses", "Bas des fesses", 65]],
+    },
+    {
       id: "fulani-braids", group: "tresses", name: "Fulani braids", sizes: true,
+      meches: 15,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 30], ["mi-dos", "Mi-dos", 35], ["bas-dos", "Bas du dos", 40], ["bas-fesses", "Bas des fesses", 55]],
     },
@@ -56,11 +69,13 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "two-steps", group: "tresses", name: "Two steps braids", sizes: true,
+      meches: 15,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40]],
     },
     {
       id: "miracle-braids", group: "tresses", name: "Miracle braids", sizes: true,
+      meches: 30,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40]],
     },
@@ -71,31 +86,37 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "tyla", group: "tresses", name: "Tyla braids", sizes: false,
+      meches: 15,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
     {
       id: "jayda-wayda", group: "tresses", name: "Jayda Wayda braids", sizes: false,
+      hair: [{ id: "synthetique", label: "Mèches synthétiques incluses", price: 20 }, { id: "naturel", label: "Tissage naturel inclus", price: 45 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
     {
       id: "tems", group: "tresses", name: "Tems braids", sizes: false,
+      hair: [{ id: "tissage", label: "Mèches incluses (tissage)", price: 40 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 50]],
     },
     {
       id: "layer-dolly", group: "tresses", name: "Layer dolly braids", sizes: false,
+      meches: 30,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
     {
       id: "patewo", group: "tresses", name: "Patewo", sizes: false,
+      meches: 15,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
     {
       id: "stick", group: "tresses", name: "Stick braids", sizes: false,
+      meches: 15,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 30]],
     },
@@ -103,31 +124,37 @@ window.KITOKO_SERVICES = {
     // ── Courtes & bouclées ──────────────────────────────────
     {
       id: "french-curly", group: "french", name: "French curly", sizes: true,
+      meches: 30,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 40], ["dos", "Dos", 45]],
     },
     {
       id: "short-french-curls", group: "boucles", name: "Short French curls braids", sizes: false,
-      variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 35]],
-    },
-    {
-      id: "shuku-curls", group: "shuku", name: "Shuku with curls", sizes: false,
+      meches: 30,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 40]],
     },
     {
-      id: "short-lemonade", group: "boucles", name: "Short lemonade braids", sizes: false,
+      id: "shuku-curls", group: "shuku", name: "Shuku with curls", sizes: false,
+      meches: 10,
+      variantLabel: "Formule",
+      variants: [["unique", "Prix unique", 40]],
+    },
+    {
+      id: "short-lemonade", group: "boucles", name: "Boho short lemonade braids", sizes: false,
+      meches: 15,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
     {
       id: "short-bob", group: "boucles", name: "Short bob braids", sizes: false,
+      meches: 15,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 40]],
     },
     {
       id: "mermaid", group: "boucles", name: "Mermaid braids", sizes: false,
+      meches: 20,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 35]],
     },
@@ -135,18 +162,21 @@ window.KITOKO_SERVICES = {
     // ── Twists & vanilles ───────────────────────────────────
     {
       id: "vanilles", group: "twists", name: "Vanilles", sizes: true,
+      meches: 15,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 40], ["bas-dos", "Bas du dos", 45], ["bas-fesses", "Bas des fesses", 50]],
     },
     {
       id: "fulani-twist", group: "twists", name: "Fulani twist", sizes: true,
+      meches: 15,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 30], ["mi-dos", "Mi-dos", 35], ["bas-dos", "Bas du dos", 45], ["bas-fesses", "Bas des fesses", 60]],
     },
     {
       id: "marley", group: "twists", name: "Marley twist", sizes: false,
+      meches: 30,
       variantLabel: "Longueur",
-      variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40], ["bas-fesses", "Bas des fesses", 50], ["meche-incluse", "Mèches incluses", 35, "from"]],
+      variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40], ["bas-fesses", "Bas des fesses", 50]],
     },
     {
       id: "twist-naturels", group: "twists", name: "Twist sur cheveux naturels", sizes: false,
@@ -164,7 +194,14 @@ window.KITOKO_SERVICES = {
       variants: [["unique", "Prix unique", 35]],
     },
     {
+      id: "twist-simple", group: "twists", name: "Twist simple", sizes: false,
+      hair: [{ id: "naturelles", label: "Mèches naturelles humaines incluses", price: 60 }],
+      variantLabel: "Longueur",
+      variants: [["epaule", "Épaule (taille unique)", 35]],
+    },
+    {
       id: "passion-twist", group: "twists", name: "Passion twist", sizes: true,
+      meches: 25,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 40], ["bas-dos", "Bas du dos", 45]],
     },
@@ -209,6 +246,7 @@ window.KITOKO_SERVICES = {
     // ── Nattes collées ──────────────────────────────────────
     {
       id: "nattes-rajout", group: "nattes", name: "Nattes collées avec rajout", sizes: true,
+      meches: 10,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 20], ["mi-dos", "Mi-dos", 25], ["bas-dos", "Bas du dos", 30], ["bas-fesses", "Bas des fesses", 35]],
     },
@@ -219,6 +257,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "cornrows", group: "nattes", name: "Cornrows", sizes: false,
+      meches: 10,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 30]],
     },
@@ -226,12 +265,14 @@ window.KITOKO_SERVICES = {
     // ── Tissage ─────────────────────────────────────────────
     {
       id: "tissage", group: "tissage", name: "Tissage", sizes: false,
+      hair: [{ id: "premium-boucle", label: "Tissage premium bouclé + lace (taille 8 à 10)", price: { ferme: 75 } }, { id: "premium-lisse", label: "Tissage lisse premium", price: { ferme: 65 } }],
       variantLabel: "Formule",
-      variants: [["ferme", "Fermé", 45], ["ouvert", "Ouvert", 40], ["meche-incluse", "Mèches incluses", 40, "from"]],
+      variants: [["ferme", "Fermé", 45], ["ouvert", "Ouvert", 40]],
     },
 
     {
       id: "half-braids", group: "tissage", name: "Half braids / Half sew-in", sizes: false,
+      hair: [{ id: "tissage", label: "Tissage inclus", price: 35 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 55]],
     },
@@ -239,6 +280,7 @@ window.KITOKO_SERVICES = {
     // ── Homme ───────────────────────────────────────────────
     {
       id: "homme", group: "homme", name: "Coiffures homme", sizes: false,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: { barrel: 5, "nattes-libres": 5, "nattes-collees": 5, "zigzag-cornrow": 5, "stitch-cornrow": 5, vanille: 10, "filant-twist": 10 } }],
       variantLabel: "Coiffure",
       variants: [["barrel", "Barrel twist", 30], ["vanille", "Vanille", 35], ["nattes-libres", "Nattes libres", 20], ["nattes-collees", "Nattes collées", 20], ["zigzag-cornrow", "Zigzag cornrow", 30], ["stitch-cornrow", "Stitch cornrow", 25], ["filant-twist", "Filant twist", 25]],
     },
