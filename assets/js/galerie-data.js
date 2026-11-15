@@ -6,7 +6,7 @@
  * options  : suppléments cochés d'avance quand on réserve depuis la photo (ex. ["boheme"])
  * Après avoir remplacé des photos, augmenter KITOKO_GALLERY_VERSION pour vider le cache.
  */
-window.KITOKO_GALLERY_VERSION = "8";
+window.KITOKO_GALLERY_VERSION = "9";
 window.KITOKO_GALLERY = [
   {"id": "knotless-braids", "title": "Knotless braids", "family": "knotless", "group": "tresses", "keywords": "sans noeud box braids", "w": 293, "h": 520},
   {"id": "boho-braids", "title": "Boho braids", "family": "boho-braids", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 516, "h": 520},
@@ -58,4 +58,13 @@ window.KITOKO_GALLERY = [
   {"id": "nail-art", "title": "Nail art", "family": "pose-complete", "group": "nails", "keywords": "ongles strass fleurs french", "w": 416, "h": 520},
   {"id": "soin-des-pieds-express-nettoyage", "title": "Soin des pieds — Express & nettoyage", "family": "soin-pieds-express", "group": "nails", "keywords": "pédicure pieds avant après", "w": 520, "h": 363},
   {"id": "soin-des-pieds-hydratation-douceur", "title": "Soin des pieds — Hydratation & douceur", "family": "soin-pieds-hydratation", "group": "nails", "keywords": "pédicure pieds", "w": 454, "h": 520},
+  {"id": "lissage-cheveux-lisses-et-brillants", "title": "Lissage — cheveux lisses et brillants", "family": "lissage-keratine", "group": "soins", "keywords": "lissage kératine tanin brushing lisse", "w": 520, "h": 389},
+  {"id": "braids-enfant", "title": "Braids enfant", "family": "enfant-braids", "group": "enfants", "keywords": "enfant fille braids tresses bouclées", "w": 329, "h": 520},
+  {"id": "nattes-collees-enfant-simples", "title": "Nattes collées enfant — simples", "family": "enfant-nattes", "group": "enfants", "keywords": "enfant fille nattes collées cornrows simple", "w": 520, "h": 285},
+  {"id": "nattes-collees-enfant-avec-motifs", "title": "Nattes collées enfant — avec motifs", "family": "enfant-nattes", "group": "enfants", "keywords": "enfant fille nattes collées motifs complexe", "w": 520, "h": 472},
+  {"id": "tresses-au-fil-coiffe", "title": "Tresses au fil + coiffe", "family": "enfant-tresses-fil", "group": "enfants", "keywords": "enfant fille fil laine brésilienne", "w": 423, "h": 520},
+  {"id": "fulani-enfant-twist-braids", "title": "Fulani enfant (twist / braids)", "family": "enfant-fulani", "group": "enfants", "keywords": "enfant fille fulani perles", "w": 394, "h": 449},
+  {"id": "lemonade-braids-enfant", "title": "Lemonade braids enfant", "family": "enfant-lemonade", "group": "enfants", "keywords": "enfant garçon fille lemonade braids", "w": 406, "h": 520},
+  {"id": "vanilles-enfant", "title": "Vanilles enfant", "family": "enfant-vanilles", "group": "enfants", "keywords": "enfant fille vanilles twists", "w": 347, "h": 520},
+  {"id": "butterfly-kids", "title": "Butterfly kids", "family": "enfant-butterfly", "group": "enfants", "keywords": "enfant fille butterfly locs", "w": 288, "h": 520}
 ];

@@ -17,6 +17,9 @@
  *                   price peut dépendre de la longueur : { epaule: 15, dos: 20 }
  *                   (sans meches ni hair : question « j'apporte / fournies » comme avant)
  *
+ *    hairTitle / hairNone / hairDefault : titre du choix (« Produits »…), libellé sans option, option cochée d'avance
+ *    hairColumns  : tarifs affichés en colonnes (sans / avec l'option), ex. lissages
+ *
  *  group.noHair = true : pas de question « mèches » (soins, ongles)
  *  extra.only / extra.except : groupes où le supplément est proposé
  */
@@ -39,7 +42,8 @@ window.KITOKO_SERVICES = {
     { id: "nattes-naturels", label: "Nattes collées (cheveux naturels)" },
     { id: "tissage", label: "Tissage" },
     { id: "homme", label: "Homme" },
-    { id: "soins", label: "Soins & lissage", noHair: true },
+    { id: "enfants", label: "Enfants" },
+    { id: "soins", label: "Lissage", noHair: true },
     { id: "nails", label: "Kitoko's Nail", noHair: true },
   ],
 
@@ -149,7 +153,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "short-bob", group: "boucles", name: "Short bob braids", sizes: false,
-      meches: 15,
+      meches: 10,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 40]],
     },
@@ -223,7 +227,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "invisible-locs", group: "locs", name: "Invisible locs", sizes: false,
-      hair: [{ id: "marley-suisse", label: "Mèches Marley suisse incluses", price: 25 }, { id: "expression", label: "Mèches Expression incluses", price: 15 }],
+      hair: [{ id: "marley-twist", label: "Mèches Marley twist incluses", price: 25 }, { id: "xpression", label: "Mèches X-pression incluses", price: 15 }],
       variantLabel: "Formule",
       variants: [["unique", "Toutes tailles (S, M, L)", 50]],
     },
@@ -245,7 +249,7 @@ window.KITOKO_SERVICES = {
     {
       id: "pose-faux-locs", group: "locs", name: "Pose de faux locs", sizes: false,
       variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 40]],
+      variants: [["unique", "Prix unique (de 40 à 60 locks)", 40]],
     },
 
     // ── Nattes collées ──────────────────────────────────────
@@ -257,8 +261,8 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "nattes-sans", group: "nattes-naturels", name: "Nattes collées avec cheveux naturels", sizes: false,
-      variantLabel: "Formule",
-      variants: [["unique", "Sans rajout (20 à 25 €)", 20, "from"]],
+      variantLabel: "Style",
+      variants: [["simple", "Coiffure simple", 20], ["motif", "Coiffure avec motif", 30]],
     },
     {
       id: "cornrows", group: "nattes", name: "Cornrows", sizes: false,
@@ -290,23 +294,67 @@ window.KITOKO_SERVICES = {
     // ── Homme ───────────────────────────────────────────────
     {
       id: "homme", group: "homme", name: "Coiffures homme", sizes: false,
-      hair: [{ id: "incluses", label: "Mèches incluses", price: { barrel: 5, "nattes-libres": 5, "nattes-collees": 5, "zigzag-cornrow": 5, "stitch-cornrow": 5, vanille: 10, "filant-twist": 10 } }],
+      // Mèches incluses : +5 € partout, +10 € pour les vanilles, rien pour le barrel twist
+      hair: [{ id: "incluses", label: "Mèches incluses", price: { vanille: 10, "nattes-libres": 5, "nattes-collees": 5, "zigzag-cornrow": 5, "stitch-cornrow": 5, "filant-twist": 5 } }],
       variantLabel: "Coiffure",
-      variants: [["barrel", "Barrel twist", 30], ["vanille", "Vanille", 35], ["nattes-libres", "Nattes libres", 20], ["nattes-collees", "Nattes collées", 20], ["zigzag-cornrow", "Zigzag cornrow", 30], ["stitch-cornrow", "Stitch cornrow", 25], ["filant-twist", "Filant twist", 25]],
+      variants: [["barrel", "Barrel twist", 35], ["vanille", "Vanille", 30], ["nattes-libres", "Nattes libres", 20], ["nattes-collees", "Nattes collées", 20], ["zigzag-cornrow", "Zigzag cornrow", 30], ["stitch-cornrow", "Stitch cornrow", 25], ["filant-twist", "Filant twist", 25]],
+    },
+
+    // ── Enfants ─────────────────────────────────────────────
+    {
+      id: "enfant-braids", group: "enfants", name: "Braids enfant", sizes: false, duration: 240,
+      meches: 10, variantLabel: "Formule", variants: [["unique", "Toutes tailles", 30]],
+    },
+    {
+      id: "enfant-nattes", group: "enfants", name: "Nattes collées enfant", sizes: false, duration: 120,
+      meches: 5, variantLabel: "Style", variants: [["simple", "Simple", 25], ["complexe", "Complexe (motifs)", 35]],
+    },
+    {
+      id: "enfant-nattes-libres", group: "enfants", name: "Nattes libres enfant", sizes: false, duration: 120,
+      meches: 5, variantLabel: "Formule", variants: [["unique", "Prix unique", 20]],
+    },
+    {
+      id: "enfant-tresses-fil", group: "enfants", name: "Tresses au fil + coiffe", sizes: false, duration: 120,
+      hair: [{ id: "laine", label: "Laine brésilienne incluse", price: 25 }], hairTitle: "Laine", hairNone: "J'apporte la laine",
+      variantLabel: "Formule", variants: [["unique", "Prix unique", 30]],
+    },
+    {
+      id: "enfant-fulani", group: "enfants", name: "Fulani enfant (twist / braids)", sizes: false, duration: 180,
+      meches: 10, variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
+    },
+    {
+      id: "enfant-lemonade", group: "enfants", name: "Lemonade braids enfant", sizes: false, duration: 180,
+      meches: 5, variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
+    },
+    {
+      id: "enfant-shuku", group: "enfants", name: "Shuku braids enfant", sizes: false, duration: 120,
+      meches: 5, variantLabel: "Formule", variants: [["unique", "Prix unique", 20]],
+    },
+    {
+      id: "enfant-vanilles", group: "enfants", name: "Vanilles enfant", sizes: false, duration: 150,
+      meches: 5, variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
+    },
+    {
+      id: "enfant-butterfly", group: "enfants", name: "Butterfly kids", sizes: false, duration: 180,
+      meches: 25, variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
     },
 
     // ── Soins & lissage ─────────────────────────────────────
     {
       id: "lissage-tanin", group: "soins", name: "Lissage au tanin", sizes: false, duration: 240,
-      note: "Prestation et produits inclus · tient 5 à 6 mois",
+      hair: [{ id: "produits", label: "Produits inclus", price: { courts: 50, "mi-longs": 80, longs: 80, "tres-longs": 70 } }],
+      hairTitle: "Produits", hairNone: "Sans produits", hairDefault: "produits", hairColumns: true,
+      note: "Tient 5 à 6 mois",
       variantLabel: "Longueur",
-      variants: [["courts", "Courts (au-dessus des épaules)", 145], ["mi-longs", "Mi-longs (épaules / clavicules)", 190], ["longs", "Longs (milieu du dos)", 210], ["tres-longs", "Très longs, très épais ou afro", 235]],
+      variants: [["courts", "Courts (au-dessus des épaules)", 95], ["mi-longs", "Mi-longs (épaules / clavicules)", 110], ["longs", "Longs (milieu du dos)", 130], ["tres-longs", "Très longs, très épais ou afro", 165]],
     },
     {
       id: "lissage-keratine", group: "soins", name: "Lissage à la kératine", sizes: false, duration: 240,
-      note: "Prestation et produits inclus · tient 5 à 6 mois",
+      hair: [{ id: "produits", label: "Produits inclus", price: { courts: 30, "mi-longs": 60, longs: 60, "tres-longs": 50 } }],
+      hairTitle: "Produits", hairNone: "Sans produits", hairDefault: "produits", hairColumns: true,
+      note: "Tient 5 à 6 mois",
       variantLabel: "Longueur",
-      variants: [["courts", "Courts (au-dessus des épaules)", 125], ["mi-longs", "Mi-longs (épaules / clavicules)", 170], ["longs", "Longs (milieu du dos)", 190], ["tres-longs", "Très longs, très épais ou afro", 215]],
+      variants: [["courts", "Courts (au-dessus des épaules)", 95], ["mi-longs", "Mi-longs (épaules / clavicules)", 110], ["longs", "Longs (milieu du dos)", 130], ["tres-longs", "Très longs, très épais ou afro", 165]],
     },
     {
       id: "brushing", group: "soins", name: "Brushing", sizes: false, duration: 60,
@@ -314,12 +362,13 @@ window.KITOKO_SERVICES = {
       variants: [["unique", "Prix unique", 30]],
     },
     {
-      id: "lissage-temporaire", group: "soins", name: "Lissage temporaire", sizes: false, duration: 90,
+      id: "lissage-temporaire", group: "soins", name: "Lissage temporaire (normal)", sizes: false, duration: 90,
       variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 40]],
+      variants: [["unique", "Prix unique", 35]],
     },
     {
       id: "defrisage", group: "soins", name: "Défrisage (produits chimiques)", sizes: false, duration: 120,
+      hair: [{ id: "produits", label: "Produits inclus", price: 15 }], hairTitle: "Produits", hairNone: "Sans produits",
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },

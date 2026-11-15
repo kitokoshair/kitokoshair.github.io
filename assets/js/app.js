@@ -48,7 +48,7 @@
   const hairOptions = (f, vid) => hairList(f)
     .map((o) => ({ ...o, price: typeof o.price === "object" ? o.price[vid] : o.price }))
     .filter((o) => typeof o.price === "number");
-  const hairNoneLabel = (f) => (f?.group === "tissage" ? "J'apporte mon tissage" : "J'apporte mes mèches");
+  const hairNoneLabel = (f) => f?.hairNone || (f?.group === "tissage" ? "J'apporte mon tissage" : "J'apporte mes mèches");
   const extraFits = (x, groupId) => !groupId || (x.only ? x.only.includes(groupId) : !(x.except || []).includes(groupId));
 
   /* ───────── Infos de contact ───────── */
@@ -107,7 +107,7 @@
 
   function hairNote(f) {
     const list = hairList(f);
-    if (!list.length) return null;
+    if (!list.length || f.hairColumns) return null;
     const many = f.variants.length > 1 || f.sizes;
     const items = list.flatMap((o) => {
       if (typeof o.price === "number") return [`${o.label} : +${euro(o.price)}${many ? " (toutes longueurs" + (f.sizes ? " et tailles)" : ")") : ""}`];
@@ -116,7 +116,7 @@
       for (const [vid, label] of f.variants) if (typeof o.price[vid] === "number") byPrice.set(o.price[vid], [...(byPrice.get(o.price[vid]) || []), label]);
       return [...byPrice].map(([pr, labels]) => `${o.label} : +${euro(pr)} (${labels.join(", ")})`);
     });
-    return el("ul", { class: "price-card__hair", "aria-label": "Options mèches" }, ...items.map((t) => el("li", { text: t })));
+    return el("ul", { class: "price-card__hair", "aria-label": `Options ${(f.hairTitle || "mèches").toLowerCase()}` }, ...items.map((t) => el("li", { text: t })));
   }
 
   function priceCard(f) {
@@ -129,6 +129,13 @@
         note,
         book
       );
+    }
+    if (f.hairColumns) {
+      const o = hairList(f)[0];
+      const head = el("tr", {}, el("th", { scope: "col", text: f.variantLabel }), el("th", { scope: "col", text: o.label }), el("th", { scope: "col", text: f.hairNone }));
+      const rows = f.variants.map(([vid, label, price]) => el("tr", {}, el("td", { text: label }), el("td", { text: euro(price + (typeof o.price === "object" ? o.price[vid] : o.price)) }), el("td", { text: euro(price) })));
+      return el("article", { class: "price-card" }, el("h3", { text: f.name }),
+        el("table", { class: "price-table" }, el("thead", {}, head), el("tbody", {}, rows)), note, book);
     }
     const head = f.sizes
       ? el("tr", {}, el("th", { scope: "col", text: f.variantLabel }), ...CAT.sizes.map((s) => el("th", { scope: "col", text: `Taille ${s.label}` })))
@@ -244,8 +251,9 @@
   }
 
   function setFamily(id) {
-    state.family = id || null; state.variant = null; state.size = null; state.hair = "sans";
+    state.family = id || null; state.variant = null; state.size = null;
     const f = currentFamily();
+    state.hair = f?.hairDefault || "sans";
     $("[data-family-select]").value = id || "";
     const vChips = $("[data-variant-chips]"); vChips.replaceChildren();
     $("[data-variant-field]").hidden = !f;
@@ -253,7 +261,8 @@
       $("[data-variant-label]").textContent = f.variantLabel;
       vChips.setAttribute("aria-label", f.variantLabel);
       f.variants.forEach(([vid, label, price, from], i) => {
-        vChips.append(chip("variant", vid, label, `${from ? "dès " : ""}${euro(price)}`, () => { state.variant = vid; renderHair(); refreshSummary(); }, f.variants.length === 1 && i === 0));
+        const shown = f.hairColumns ? `dès ${euro(price)}` : `${from ? "dès " : ""}${euro(price)}`;
+        vChips.append(chip("variant", vid, label, shown, () => { state.variant = vid; renderHair(); refreshSummary(); }, f.variants.length === 1 && i === 0));
       });
       if (f.variants.length === 1) state.variant = f.variants[0][0];
     }
@@ -282,12 +291,16 @@
   function renderHair() {
     const f = currentFamily();
     const opts = hairOptions(f, state.variant);
-    if (!opts.some((o) => o.id === state.hair)) state.hair = "sans";
+    // garder le choix (ou l'option par défaut) tant qu'aucune longueur n'est choisie
+    if (state.hair !== "sans" && opts.length && !opts.some((o) => o.id === state.hair)) state.hair = "sans";
     const field = $("[data-hairprice-field]"); const box = $("[data-hairprice-chips]");
     box.replaceChildren();
+    const title = f?.hairTitle || "Mèches";
+    const titleEl = field.querySelector("span"); if (titleEl) titleEl.textContent = title;
+    box.setAttribute("aria-label", title);
     field.hidden = !opts.length;
     if (opts.length) {
-      box.append(chip("hairPrice", "sans", hairNoneLabel(f), "sans supplément", () => { state.hair = "sans"; refreshSummary(); }, state.hair === "sans"));
+      box.append(chip("hairPrice", "sans", hairNoneLabel(f), f.hairColumns ? "prix de base" : "sans supplément", () => { state.hair = "sans"; refreshSummary(); }, state.hair === "sans"));
       opts.forEach((o) => box.append(chip("hairPrice", o.id, o.label, `+${euro(o.price)}`, () => { state.hair = o.id; refreshSummary(); }, state.hair === o.id)));
     }
     const hairField = $("[data-hair-field]");
