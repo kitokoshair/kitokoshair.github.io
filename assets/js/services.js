@@ -57,7 +57,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "boho-braids", group: "tresses", name: "Boho braids", sizes: true,
-      hair: [{ id: "incluses", label: "Mèches incluses", price: 20 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 10 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 45], ["bas-dos", "Bas du dos", 55], ["bas-fesses", "Bas des fesses", 65]],
     },
@@ -83,11 +83,6 @@ window.KITOKO_SERVICES = {
       meches: 35,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40]],
-    },
-    {
-      id: "miracle-knots", group: "tresses", name: "Miracle knots braids", sizes: false,
-      variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 35]],
     },
     {
       id: "tyla", group: "tresses", name: "Tyla braids", sizes: false,
@@ -122,7 +117,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "patewo", group: "tresses", name: "Patewo", sizes: false,
-      meches: 15,
+      meches: 10,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
