@@ -28,7 +28,7 @@ window.KITOKO_CONFIG = {
     // Pas entre deux heures de début proposées (en minutes)
     slotStepMinutes: 60,
     // Délai minimum avant un rendez-vous (en heures)
-    minNoticeHours: 24,
+    minNoticeHours: 12,
     // Jusqu'à combien de jours à l'avance on peut réserver
     maxDaysAhead: 60,
     // Horaires d'ouverture par jour (0 = dimanche … 6 = samedi). null = fermé.

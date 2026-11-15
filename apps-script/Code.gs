@@ -24,7 +24,7 @@ const CONFIG = {
   TIMEZONE: "Europe/Paris",
 
   // Doit correspondre à assets/js/config.js
-  MIN_NOTICE_HOURS: 24,
+  MIN_NOTICE_HOURS: 12,
   MAX_DAYS_AHEAD: 60,
   MIN_DURATION_MINUTES: 30,
   MAX_DURATION_MINUTES: 600,

@@ -46,7 +46,7 @@ Les clientes choisissent leur coiffure, voient le prix exact et réservent un cr
 
 | | |
 |---|---|
-| ⏰ Délai | Réservation **au moins 24 h à l'avance** |
+| ⏰ Délai | Réservation **au moins 12 h à l'avance** |
 | 💇🏾‍♀️ Durée | Une séance dure environ **6 h** |
 | 🗓️ Horaires | Tous les jours, de **9 h à 18 h** |
 | ❌ Annulation | **Gratuite jusqu'à 72 h** avant le rendez-vous |

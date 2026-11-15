@@ -57,13 +57,13 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "boho-braids", group: "tresses", name: "Boho braids", sizes: true,
-      meches: 20,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 20 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 45], ["bas-dos", "Bas du dos", 55], ["bas-fesses", "Bas des fesses", 65]],
     },
     {
       id: "fulani-braids", group: "tresses", name: "Fulani braids", sizes: true,
-      meches: 15,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 15 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 30], ["mi-dos", "Mi-dos", 35], ["bas-dos", "Bas du dos", 40], ["bas-fesses", "Bas des fesses", 55]],
     },
@@ -74,13 +74,13 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "two-steps", group: "tresses", name: "Two steps braids", sizes: true,
-      meches: 15,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 15 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40]],
     },
     {
       id: "miracle-braids", group: "tresses", name: "Miracle braids", sizes: true,
-      meches: 30,
+      meches: 35,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40]],
     },
@@ -91,13 +91,20 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "tyla", group: "tresses", name: "Tyla braids", sizes: false,
-      hair: [{ id: "tissage", label: "Tissage inclus", price: 30 }],
+      hair: [
+        { id: "tissage", label: "Tissage inclus", price: 30 },
+        { id: "human-8", label: "Mèches human hair incluses — taille 8 (200 g)", price: 35 },
+        { id: "human-10", label: "Mèches human hair incluses — taille 10 (200 g)", price: 45 },
+        { id: "human-12", label: "Mèches human hair incluses — taille 12 (200 g)", price: 50 },
+        { id: "human-14", label: "Mèches human hair incluses — taille 14 (200 g)", price: 60 },
+        { id: "human-16", label: "Mèches human hair incluses — taille 16 (200 g)", price: 70 },
+      ],
       variantLabel: "Formule",
-      variants: [["unique", "Prix unique", 45]],
+      variants: [["unique", "Prix unique", 50]],
     },
     {
       id: "jayda-wayda", group: "tresses", name: "Jayda Wayda braids", sizes: false,
-      hair: [{ id: "synthetique", label: "Mèches synthétiques incluses", price: 20 }, { id: "naturel", label: "Tissage naturel inclus", price: 45 }],
+      hair: [{ id: "synthetique", label: "Mèche synthétique incluse (crochet)", price: 20 }, { id: "naturel", label: "Tissage naturel inclus (taille 10 à 14)", price: 55 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
@@ -141,13 +148,13 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "shuku-curls", group: "shuku", name: "Shuku with curls", sizes: false,
-      meches: 10,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 10 }, { id: "boheme", label: "Mèches bohème incluses", price: 5 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 40]],
     },
     {
       id: "short-lemonade", group: "boucles", name: "Boho short lemonade braids", sizes: false,
-      meches: 15,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 15 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
@@ -167,7 +174,7 @@ window.KITOKO_SERVICES = {
     // ── Twists & vanilles ───────────────────────────────────
     {
       id: "vanilles", group: "twists", name: "Vanilles", sizes: true,
-      meches: 15,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 15 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["mi-dos", "Mi-dos", 40], ["bas-dos", "Bas du dos", 45], ["bas-fesses", "Bas des fesses", 50]],
     },
@@ -215,7 +222,7 @@ window.KITOKO_SERVICES = {
     // ── Locs ─────────────────────────────────────────────────
     {
       id: "soft-locs", group: "locs", name: "Soft locs", sizes: true,
-      meches: 30,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 30 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }],
       variantLabel: "Longueur",
       variants: [["mi-dos", "Mi-dos", 35], ["dos", "Dos", 40], ["bas-fesses", "Bas des fesses", 45]],
     },
@@ -255,7 +262,7 @@ window.KITOKO_SERVICES = {
     // ── Nattes collées ──────────────────────────────────────
     {
       id: "nattes-rajout", group: "nattes", name: "Nattes collées avec rajout", sizes: true,
-      meches: 10,
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 10 }, { id: "boheme", label: "Mèches bohème incluses", price: 5 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 20], ["mi-dos", "Mi-dos", 25], ["bas-dos", "Bas du dos", 30], ["bas-fesses", "Bas des fesses", 35]],
     },
@@ -275,10 +282,12 @@ window.KITOKO_SERVICES = {
     {
       id: "tissage", group: "tissage", name: "Tissage", sizes: false,
       hair: [
-        { id: "premium-boucle-lace", label: "Tissage premium bouclé + lace (taille 10 à 16)", price: { ferme: 75 } },
-        { id: "premium-lisse", label: "Tissage lisse premium", price: { ferme: 65 } },
-        { id: "premium-boucle", label: "Tissage premium bouclé (sans lace)", price: { ouvert: 65 } },
-        { id: "standard-lisse", label: "Tissage standard lisse", price: { ouvert: 35 } },
+        { id: "premium-boucle-lace", label: "Human hair premium bouclé + lace (taille 14)", price: { ferme: 75 } },
+        { id: "premium-lisse", label: "Human hair lisse premium (taille 14)", price: { ferme: 60 } },
+        { id: "wave-12-16", label: "Human hair premium bouclé wave (taille 12 à 16)", price: { ouvert: 65 } },
+        { id: "wave-16-20", label: "Human hair premium bouclé wave (taille 16 à 20)", price: { ouvert: 80 } },
+        { id: "lisse-12-16", label: "Tissage standard lisse (taille 12 à 16)", price: { ouvert: 50 } },
+        { id: "lisse-16-20", label: "Tissage standard lisse (taille 16 à 20)", price: { ouvert: 70 } },
       ],
       variantLabel: "Formule",
       variants: [["ferme", "Fermé", 45], ["ouvert", "Ouvert", 40]],
@@ -303,7 +312,7 @@ window.KITOKO_SERVICES = {
     // ── Enfants ─────────────────────────────────────────────
     {
       id: "enfant-braids", group: "enfants", name: "Braids enfant", sizes: false, duration: 240,
-      meches: 10, variantLabel: "Formule", variants: [["unique", "Toutes tailles", 30]],
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 10 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }], variantLabel: "Formule", variants: [["unique", "Toutes tailles", 30]],
     },
     {
       id: "enfant-nattes", group: "enfants", name: "Nattes collées enfant", sizes: false, duration: 120,
@@ -320,7 +329,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "enfant-fulani", group: "enfants", name: "Fulani enfant (twist / braids)", sizes: false, duration: 180,
-      meches: 10, variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
+      hair: [{ id: "incluses", label: "Mèches incluses", price: 10 }, { id: "boho-synth", label: "Mèches boho synthétiques incluses", price: 15 }, { id: "boho-human", label: "Mèches boho human hair incluses", price: 35 }], variantLabel: "Formule", variants: [["unique", "Prix unique", 25]],
     },
     {
       id: "enfant-lemonade", group: "enfants", name: "Lemonade braids enfant", sizes: false, duration: 180,
