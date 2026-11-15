@@ -35,7 +35,8 @@ window.KITOKO_SERVICES = {
     { id: "shuku", label: "Shuku with curls" },
     { id: "twists", label: "Twists & vanilles" },
     { id: "locs", label: "Locs" },
-    { id: "nattes", label: "Nattes collées" },
+    { id: "nattes", label: "Nattes collées (avec rajout)" },
+    { id: "nattes-naturels", label: "Nattes collées (cheveux naturels)" },
     { id: "tissage", label: "Tissage" },
     { id: "homme", label: "Homme" },
     { id: "soins", label: "Soins & lissage", noHair: true },
@@ -86,7 +87,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "tyla", group: "tresses", name: "Tyla braids", sizes: false,
-      meches: 15,
+      hair: [{ id: "tissage", label: "Tissage inclus", price: 30 }],
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 45]],
     },
@@ -174,7 +175,7 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "marley", group: "twists", name: "Marley twist", sizes: false,
-      meches: 30,
+      meches: 35,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 35], ["dos", "Dos", 40], ["bas-fesses", "Bas des fesses", 50]],
     },
@@ -190,12 +191,13 @@ window.KITOKO_SERVICES = {
     },
     {
       id: "bantu-knots", group: "boucles", name: "Bantu knots", sizes: false,
+      meches: 10,
       variantLabel: "Formule",
       variants: [["unique", "Prix unique", 35]],
     },
     {
       id: "twist-simple", group: "twists", name: "Twist simple", sizes: false,
-      hair: [{ id: "naturelles", label: "Mèches naturelles humaines incluses", price: 60 }],
+      hair: [{ id: "standard", label: "Mèches standard incluses", price: 30 }, { id: "naturelles", label: "Mèches naturelles humaines incluses", price: 60 }],
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule (taille unique)", 35]],
     },
@@ -209,16 +211,19 @@ window.KITOKO_SERVICES = {
     // ── Locs ─────────────────────────────────────────────────
     {
       id: "soft-locs", group: "locs", name: "Soft locs", sizes: true,
+      meches: 30,
       variantLabel: "Longueur",
       variants: [["mi-dos", "Mi-dos", 35], ["dos", "Dos", 40], ["bas-fesses", "Bas des fesses", 45]],
     },
     {
       id: "butterfly-locs", group: "locs", name: "Butterfly locs", sizes: true,
+      meches: 35,
       variantLabel: "Longueur",
       variants: [["epaule", "Épaule", 50], ["dos", "Dos", 60]],
     },
     {
       id: "invisible-locs", group: "locs", name: "Invisible locs", sizes: false,
+      hair: [{ id: "marley-suisse", label: "Mèches Marley suisse incluses", price: 25 }, { id: "expression", label: "Mèches Expression incluses", price: 15 }],
       variantLabel: "Formule",
       variants: [["unique", "Toutes tailles (S, M, L)", 50]],
     },
@@ -251,7 +256,7 @@ window.KITOKO_SERVICES = {
       variants: [["epaule", "Épaule", 20], ["mi-dos", "Mi-dos", 25], ["bas-dos", "Bas du dos", 30], ["bas-fesses", "Bas des fesses", 35]],
     },
     {
-      id: "nattes-sans", group: "nattes", name: "Nattes collées avec cheveux naturels", sizes: false,
+      id: "nattes-sans", group: "nattes-naturels", name: "Nattes collées avec cheveux naturels", sizes: false,
       variantLabel: "Formule",
       variants: [["unique", "Sans rajout (20 à 25 €)", 20, "from"]],
     },
@@ -265,7 +270,12 @@ window.KITOKO_SERVICES = {
     // ── Tissage ─────────────────────────────────────────────
     {
       id: "tissage", group: "tissage", name: "Tissage", sizes: false,
-      hair: [{ id: "premium-boucle", label: "Tissage premium bouclé + lace (taille 8 à 10)", price: { ferme: 75 } }, { id: "premium-lisse", label: "Tissage lisse premium", price: { ferme: 65 } }],
+      hair: [
+        { id: "premium-boucle-lace", label: "Tissage premium bouclé + lace (taille 10 à 16)", price: { ferme: 75 } },
+        { id: "premium-lisse", label: "Tissage lisse premium", price: { ferme: 65 } },
+        { id: "premium-boucle", label: "Tissage premium bouclé (sans lace)", price: { ouvert: 65 } },
+        { id: "standard-lisse", label: "Tissage standard lisse", price: { ouvert: 35 } },
+      ],
       variantLabel: "Formule",
       variants: [["ferme", "Fermé", 45], ["ouvert", "Ouvert", 40]],
     },

@@ -6,7 +6,7 @@
  * options  : suppléments cochés d'avance quand on réserve depuis la photo (ex. ["boheme"])
  * Après avoir remplacé des photos, augmenter KITOKO_GALLERY_VERSION pour vider le cache.
  */
-window.KITOKO_GALLERY_VERSION = "7";
+window.KITOKO_GALLERY_VERSION = "8";
 window.KITOKO_GALLERY = [
   {"id": "knotless-braids", "title": "Knotless braids", "family": "knotless", "group": "tresses", "keywords": "sans noeud box braids", "w": 293, "h": 520},
   {"id": "boho-braids", "title": "Boho braids", "family": "boho-braids", "group": "tresses", "keywords": "bohème boho boucles knotless", "w": 516, "h": 520},
@@ -41,7 +41,7 @@ window.KITOKO_GALLERY = [
   {"id": "resserrage-de-locs", "title": "Resserrage de locs", "family": "vrais-locs", "group": "locs", "keywords": "vrais locs entretien", "w": 520, "h": 383},
   {"id": "nattes-collees-avec-rajout", "title": "Nattes collées avec rajout", "family": "nattes-rajout", "group": "nattes", "keywords": "cornrows", "w": 403, "h": 520},
   {"id": "cornrows", "title": "Cornrows", "family": "nattes-rajout", "group": "nattes", "keywords": "nattes collées rajout", "w": 520, "h": 335},
-  {"id": "nattes-collees-avec-cheveux-naturels", "title": "Nattes collées avec cheveux naturels", "family": "nattes-sans", "group": "nattes", "keywords": "nattes collées naturels sans rajout cornrows", "w": 454, "h": 520},
+  {"id": "nattes-collees-avec-cheveux-naturels", "title": "Nattes collées avec cheveux naturels", "family": "nattes-sans", "group": "nattes-naturels", "keywords": "nattes collées naturels sans rajout cornrows", "w": 454, "h": 520},
   {"id": "tissage-ferme-avec-closure", "title": "Tissage fermé avec closure", "family": "tissage", "group": "tissage", "keywords": "perruque lace closure", "w": 410, "h": 520},
   {"id": "tissage-ouvert", "title": "Tissage ouvert", "family": "tissage", "group": "tissage", "keywords": "", "w": 399, "h": 520},
   {"id": "half-braids-half-sew-in", "title": "Half braids / Half sew-in", "family": "half-braids", "group": "tissage", "keywords": "moitié tresses tissage", "w": 520, "h": 512},
