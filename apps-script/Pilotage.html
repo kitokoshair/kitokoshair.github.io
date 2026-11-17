@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #24102B; --ink-soft: #5A3A5F; --muted: #8A7290; --line: #F0D9E2; --mist: #FDF0F2; --paper: #FFFAF5; --white: #fff;
+    --ca: #A62A7E; --dep: #A9740A; --ok: #1F7A4D; --warn: #9A6500; --err: #B3261E;
+    --grad: linear-gradient(100deg, #FEF6AD 0%, #FCD3D6 50%, #FEAAF8 100%);
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif; --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--paper); font-size: 15px; line-height: 1.45; }
+  .top { position: sticky; top: 0; z-index: 5; background: var(--ink); color: #fff; }
+  .top::after { content: ""; display: block; height: 3px; background: var(--grad); }
+  .top__in { max-width: 1200px; margin: 0 auto; padding: .8rem 1.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; }
+  .brand { display: flex; align-items: center; gap: .7rem; font-family: var(--display); font-weight: 700; font-size: 1.05rem; margin-right: auto; }
+  .brand__mark { width: 38px; height: 38px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; }
+  .brand__mark img { width: 24px; transform: translateY(1px); }
+  .brand small { display: block; font-family: var(--body); font-weight: 500; font-size: .78rem; color: #E7D6E6; }
+  .periods { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .periods button { font: inherit; font-size: .85rem; font-weight: 600; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: .35rem .8rem; cursor: pointer; }
+  .periods button[aria-pressed="true"] { background: var(--grad); color: var(--ink); border-color: transparent; }
+  .periods button:focus-visible, .btn:focus-visible { outline: 2px solid #FEAAF8; outline-offset: 2px; }
+  main { max-width: 1200px; margin: 0 auto; padding: 1.4rem 1.2rem 4rem; }
+  .meta { color: var(--ink-soft); font-size: .88rem; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; align-items: center; margin-bottom: 1.2rem; }
+  .meta a { color: var(--ca); font-weight: 600; }
+  h2 { font-family: var(--display); font-size: 1.1rem; margin: 2.2rem 0 .9rem; display: flex; align-items: center; gap: .6rem; }
+  h2 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 0 2px var(--ink); }
+  h3 { font-size: .95rem; margin: 0 0 .7rem; }
+  .grid { display: grid; gap: .9rem; }
+  .tiles { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .tiles--hero { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
+  .split > .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); }
+  .tile, .card { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.1rem; }
+  .tile__label { font-size: .82rem; color: var(--ink-soft); font-weight: 600; }
+  .tile__value { font-family: var(--display); font-size: 1.45rem; font-weight: 700; margin-top: .25rem; letter-spacing: -.01em; }
+  .tiles--hero .tile__value { font-size: 1.75rem; }
+  .tile__sub { font-size: .8rem; color: var(--muted); margin-top: .2rem; }
+  .delta { font-size: .78rem; font-weight: 700; margin-top: .3rem; }
+  .delta.up { color: var(--ok); } .delta.down { color: var(--err); } .delta.flat { color: var(--muted); }
+  .tile--accent { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .tile--accent .tile__label, .tile--accent .tile__sub { color: #E7D6E6; }
+  .tile--accent .delta.up { color: #8FE3B6; } .tile--accent .delta.down { color: #FFB4AB; } .tile--accent .delta.flat { color: #E7D6E6; }
+  .bars { display: grid; gap: .45rem; }
+  .bar { display: grid; grid-template-columns: minmax(90px, 38%) 1fr auto; align-items: center; gap: .6rem; font-size: .86rem; position: relative; }
+  .bar__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-soft); }
+  .bar__track { height: 14px; }
+  .bar__fill { height: 100%; background: var(--ca); border-radius: 0 4px 4px 0; min-width: 2px; }
+  .bar__val { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: right; }
+  .bar:hover .bar__fill { filter: brightness(1.12); }
+  .empty { color: var(--muted); font-size: .88rem; padding: .6rem 0; }
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart .grid-line { stroke: #EFE3EA; stroke-width: 1; }
+  .chart .axis { fill: var(--muted); font-size: 11px; font-family: var(--body); }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; font-size: .8rem; padding: .4rem .6rem; border-radius: 8px; white-space: nowrap; transform: translate(-50%, -110%); opacity: 0; transition: opacity .12s; z-index: 3; }
+  .tip b { font-weight: 700; }
+  .legend { display: flex; gap: 1rem; font-size: .82rem; color: var(--ink-soft); margin-bottom: .5rem; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: .35rem; vertical-align: -1px; }
+  .funnel .bar { grid-template-columns: minmax(170px, 50%) 1fr auto; }
+  .funnel .bar__val small { color: var(--muted); font-weight: 500; margin-left: .3rem; }
+  #upcoming-list, #exp-table { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  th, td { text-align: left; padding: .5rem .4rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .78rem; color: var(--ink-soft); font-weight: 700; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .badge { display: inline-block; white-space: nowrap; font-size: .74rem; font-weight: 700; padding: .12rem .5rem; border-radius: 999px; }
+  .badge--ok { background: #E3F4EA; color: var(--ok); } .badge--wait { background: #FFF4D6; color: var(--warn); }
+  form.exp { display: grid; grid-template-columns: 140px 1fr 1.4fr 110px auto; gap: .5rem; align-items: end; margin-bottom: 1rem; }
+  form.exp label { display: grid; gap: .2rem; font-size: .78rem; font-weight: 700; color: var(--ink-soft); }
+  input, select { font: inherit; font-size: .9rem; padding: .5rem .55rem; border: 1px solid #DCC5D2; border-radius: 10px; background: #fff; color: var(--ink); width: 100%; }
+  .btn { font: inherit; font-weight: 700; font-size: .88rem; border: 0; border-radius: 999px; padding: .6rem 1.1rem; background: var(--ink); color: #fff; cursor: pointer; }
+  .btn--ghost { background: transparent; color: var(--err); padding: .25rem .5rem; font-size: .8rem; }
+  .btn[disabled] { opacity: .55; cursor: wait; }
+  .note { font-size: .8rem; color: var(--muted); margin-top: .6rem; }
+  .loading { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(255,250,245,.75); z-index: 10; font-weight: 700; }
+  .loading[hidden] { display: none; }
+  .err { background: #FDECEA; color: var(--err); border-radius: 12px; padding: .8rem 1rem; margin-bottom: 1rem; }
+  @media (max-width: 760px) {
+    form.exp { grid-template-columns: 1fr 1fr; }
+    form.exp .btn { grid-column: 1 / -1; }
+    .tile__value { font-size: 1.25rem; } .tiles--hero .tile__value { font-size: 1.45rem; }
+    .brand { margin-right: 0; width: 100%; }
+    .tiles--hero, .split > .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .split { grid-template-columns: minmax(0, 1fr); }
+    th, td { padding: .45rem .3rem; } .card { padding: .9rem; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top__in">
+    <div class="brand"><span class="brand__mark"><img src="https://kitokoshair.github.io/assets/img/kitoko-mark.png" alt=""></span><span>Pilotage<small>KITOKO's HAIR</small></span></div>
+    <div class="periods" role="group" aria-label="Période">
+      <button type="button" data-p="7">7 jours</button>
+      <button type="button" data-p="30" aria-pressed="true">30 jours</button>
+      <button type="button" data-p="mois">Ce mois</button>
+      <button type="button" data-p="90">3 mois</button>
+      <button type="button" data-p="annee">Cette année</button>
+      <button type="button" data-p="tout">Tout</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="meta"><span id="meta-range">Chargement…</span><span id="meta-gen"></span><a id="meta-sheet" href="#" target="_blank" rel="noopener" hidden>Ouvrir le classeur Google</a></div>
+  <div id="error" class="err" hidden></div>
+
+  <h2><span class="dot"></span>L'essentiel</h2>
+  <div class="grid tiles tiles--hero" id="hero"></div>
+
+  <h2><span class="dot"></span>À venir</h2>
+  <div class="grid split">
+    <div class="grid tiles" id="upcoming-tiles"></div>
+    <div class="card"><h3>Prochains rendez-vous</h3><div id="upcoming-list"></div></div>
+  </div>
+
+  <h2><span class="dot"></span>Visites du site</h2>
+  <div class="grid tiles" id="visit-tiles"></div>
+  <div class="grid cards2" style="margin-top:.9rem">
+    <div class="card"><h3>Visiteurs par jour</h3><div class="chart" id="chart-daily"></div></div>
+    <div class="card"><h3>Parcours de réservation</h3><div class="bars funnel" id="funnel"></div><p class="note">Part des visiteurs arrivés à chaque étape du formulaire.</p></div>
+    <div class="card"><h3>D'où viennent les visiteurs</h3><div class="bars" id="sources"></div></div>
+    <div class="card"><h3>Appareils</h3><div class="bars" id="devices"></div><h3 style="margin-top:1.1rem">Pages vues</h3><div class="bars" id="pages"></div></div>
+  </div>
+
+  <h2><span class="dot"></span>Réservations</h2>
+  <div class="grid tiles" id="resa-tiles"></div>
+  <div class="grid cards2" style="margin-top:.9rem">
+    <div class="card"><h3>Prestations les plus demandées</h3><div class="bars" id="services"></div></div>
+    <div class="card"><h3>Catégories</h3><div class="bars" id="categories"></div></div>
+    <div class="card"><h3>Jours des rendez-vous</h3><div class="chart" id="chart-weekdays"></div></div>
+    <div class="card"><h3>Heures de début</h3><div class="chart" id="chart-hours"></div></div>
+  </div>
+
+  <h2><span class="dot"></span>Chiffre d'affaires et bénéfice</h2>
+  <div class="grid tiles" id="money-tiles"></div>
+  <div class="grid cards2" style="margin-top:.9rem">
+    <div class="card" style="grid-column:1/-1"><h3>12 derniers mois</h3><div class="legend"><span><i style="background:var(--ca)"></i>Chiffre d'affaires réalisé</span><span><i style="background:var(--dep)"></i>Dépenses</span></div><div class="chart" id="chart-months"></div></div>
+    <div class="card"><h3>CA par prestation</h3><div class="bars" id="ca-services"></div></div>
+    <div class="card"><h3>Dépenses par catégorie</h3><div class="bars" id="exp-cats"></div></div>
+  </div>
+
+  <h2><span class="dot"></span>Dépenses</h2>
+  <div class="card">
+    <form class="exp" id="exp-form">
+      <label>Date<input type="date" name="date" required></label>
+      <label>Catégorie<select name="category" id="exp-cat"></select></label>
+      <label>Libellé<input name="label" maxlength="120" placeholder="Ex. 6 paquets de mèches X-pression"></label>
+      <label>Montant (€)<input name="amount" inputmode="decimal" placeholder="0,00" required></label>
+      <button class="btn" type="submit">Ajouter</button>
+    </form>
+    <div id="exp-table"></div>
+    <p class="note">Les dépenses sont aussi modifiables directement dans l'onglet « Dépenses » du classeur Google.</p>
+  </div>
+  <p class="note" style="margin-top:2rem">Mesure d'audience anonyme, sans cookie : un visiteur = un appareil. Le CA compte les rendez-vous confirmés et passés, au prix affiché lors de la réservation. Les réservations comptent les demandes reçues sur la période.</p>
+</main>
+<div class="loading" id="loading">Calcul des indicateurs…</div>
+
+<script>
+  const KEY = "<?= key ?>";
+  const CATEGORIES = <?!= categories ?>;
+  let period = "30";
+  const $ = (s) => document.querySelector(s);
+  const euro = (n, d) => (n == null ? "—" : n.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d === undefined ? (n % 1 && Math.abs(n) < 100 ? 2 : 0) : d }) + " €");
+  const int = (n) => Math.round(n).toLocaleString("fr-FR");
+  const pct = (x) => (x * 100).toLocaleString("fr-FR", { maximumFractionDigits: x < 0.1 ? 1 : 0 }) + " %";
+  const num1 = (x) => x.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  function delta(cur, prev, invert) {
+    if (prev == null) return "";
+    if (!prev && !cur) return '<div class="delta flat">= période préc.</div>';
+    if (!prev) return '<div class="delta up">▲ nouveau</div>';
+    const d = (cur - prev) / Math.abs(prev);
+    if (Math.abs(d) < 0.005) return '<div class="delta flat">= période préc.</div>';
+    const good = invert ? d < 0 : d > 0;
+    return `<div class="delta ${good ? "up" : "down"}">${d > 0 ? "▲" : "▼"} ${pct(Math.abs(d))} vs préc.</div>`;
+  }
+  function tile(label, value, sub, d, accent) {
+    return `<div class="tile${accent ? " tile--accent" : ""}"><div class="tile__label">${label}</div><div class="tile__value">${value}</div>${sub ? `<div class="tile__sub">${sub}</div>` : ""}${d || ""}</div>`;
+  }
+  function bars(el, items, fmt) {
+    if (!items.length || items.every((x) => !x.n)) { el.innerHTML = '<div class="empty">Pas encore de données sur cette période.</div>'; return; }
+    const max = Math.max(...items.map((x) => x.n)) || 1;
+    el.innerHTML = items.map((x) => `<div class="bar" title="${esc(x.label)} : ${esc(fmt ? fmt(x.n) : int(x.n))}"><span class="bar__label">${esc(x.label)}</span><span class="bar__track"><span class="bar__fill" style="display:block;width:${(x.n / max) * 100}%;background:${x.color || "var(--ca)"}"></span></span><span class="bar__val">${fmt ? fmt(x.n) : int(x.n)}</span></div>`).join("");
+  }
+
+  /* Graphique en colonnes (une ou deux séries), axe unique, infobulle au survol */
+  function columns(el, labels, series, fmt) {
+    const W = Math.max(280, Math.round(el.clientWidth || 640)), H = 210, L = 48, B = 26, T = 10, plotW = W - L - 6, plotH = H - B - T;
+    const max = Math.max(1, ...series.flatMap((s) => s.values));
+    const step = niceStep(max), top = Math.ceil(max / step) * step;
+    const n = labels.length, slot = plotW / n, gap = 2;
+    const bw = Math.max(3, Math.min(34, (slot * 0.72 - gap * (series.length - 1)) / series.length));
+    let g = "";
+    for (let v = 0; v <= top + 1e-9; v += step) {
+      const y = T + plotH - (v / top) * plotH;
+      g += `<line class="grid-line" x1="${L}" x2="${W - 6}" y1="${y}" y2="${y}"/><text class="axis" x="${L - 6}" y="${y + 4}" text-anchor="end">${fmt ? fmt(v, true) : int(v)}</text>`;
+    }
+    const every = Math.max(1, Math.ceil(n / Math.floor(plotW / 46)));
+    labels.forEach((lab, i) => {
+      const cx = L + slot * i + slot / 2;
+      const groupW = bw * series.length + gap * (series.length - 1);
+      series.forEach((s, k) => {
+        const v = s.values[i], h = (v / top) * plotH, x = cx - groupW / 2 + k * (bw + gap), y = T + plotH - h;
+        if (h > 0) g += `<path d="M${x},${T + plotH}V${y + Math.min(4, h)}q0,-${Math.min(4, h)} ${Math.min(4, bw / 2)},-${Math.min(4, h)}H${x + bw - Math.min(4, bw / 2)}q${Math.min(4, bw / 2)},0 ${Math.min(4, bw / 2)},${Math.min(4, h)}V${T + plotH}Z" fill="${s.color}"/>`;
+      });
+      if (i % every === 0) g += `<text class="axis" x="${cx}" y="${H - 8}" text-anchor="middle">${esc(lab)}</text>`;
+      g += `<rect x="${L + slot * i}" y="${T}" width="${slot}" height="${plotH}" fill="transparent" data-i="${i}"/>`;
+    });
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Graphique">${g}</svg><div class="tip"></div>`;
+    const tip = el.querySelector(".tip");
+    el.querySelectorAll("rect[data-i]").forEach((r) => {
+      const show = () => {
+        const i = Number(r.dataset.i), box = el.getBoundingClientRect(), rb = r.getBoundingClientRect();
+        tip.innerHTML = `<b>${esc(labels[i])}</b><br>` + series.map((s) => `${series.length > 1 ? esc(s.name) + " : " : ""}${fmt ? fmt(s.values[i]) : int(s.values[i])}`).join("<br>");
+        tip.style.left = rb.left - box.left + rb.width / 2 + "px"; tip.style.top = rb.top - box.top + 18 + "px"; tip.style.opacity = 1;
+        r.setAttribute("fill", "rgba(166,42,126,.06)");
+      };
+      r.addEventListener("mouseenter", show); r.addEventListener("click", show);
+      r.addEventListener("mouseleave", () => { tip.style.opacity = 0; r.setAttribute("fill", "transparent"); });
+    });
+  }
+  function niceStep(max) { const raw = max / 4, p = Math.pow(10, Math.floor(Math.log10(raw))); const m = raw / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; }
+
+  function render(d) {
+    const c = d.cur, p = d.prev;
+    $("#meta-range").textContent = `${d.label} · du ${d.from} au ${d.to}`;
+    $("#meta-gen").textContent = `Mis à jour le ${d.generated}`;
+    const sheet = $("#meta-sheet"); sheet.href = d.sheetUrl; sheet.hidden = false;
+
+    $("#hero").innerHTML = [
+      tile("Chiffre d'affaires réalisé", euro(c.money.ca), `${c.money.done} prestation${c.money.done > 1 ? "s" : ""} réalisée${c.money.done > 1 ? "s" : ""}`, delta(c.money.ca, p.money.ca), true),
+      tile("Bénéfice", euro(c.money.profit), `CA − dépenses (${euro(c.money.expenses)})`, delta(c.money.profit, p.money.profit)),
+      tile("Réservations reçues", int(c.resa.requests), `${c.resa.confirmed} confirmée${c.resa.confirmed > 1 ? "s" : ""}`, delta(c.resa.requests, p.resa.requests)),
+      tile("Visiteurs", int(c.visits.visitors), `${int(c.visits.sessions)} visites`, delta(c.visits.visitors, p.visits.visitors)),
+      tile("Taux de conversion", c.visits.sessions ? pct(c.resa.conversion) : "—", "Réservations ÷ visites", delta(c.resa.conversion, p.resa.conversion)),
+      tile("Panier moyen", c.money.done ? euro(c.money.basket) : "—", "Par prestation réalisée", delta(c.money.basket, p.money.basket)),
+    ].join("");
+
+    $("#upcoming-tiles").innerHTML = [
+      tile("CA à venir confirmé", euro(d.upcomingCA.confirmed), "Rendez-vous confirmés à venir"),
+      tile("CA en attente", euro(d.upcomingCA.pending), "Demandes à confirmer"),
+      tile("Rendez-vous à venir", int(d.upcomingCA.count)),
+      tile("Clientes", int(d.clients.total), d.clients.total ? `${int(d.clients.loyal)} revenue${d.clients.loyal > 1 ? "s" : ""} plusieurs fois (${pct(d.clients.loyal / d.clients.total)})` : "Depuis le début"),
+    ].join("");
+    $("#upcoming-list").innerHTML = d.upcoming.length
+      ? `<table><thead><tr><th>Quand</th><th>Prestation</th><th class="num">Prix</th><th>Statut</th></tr></thead><tbody>${d.upcoming.map((u) => `<tr><td>${esc(u.when)}</td><td>${esc(u.service)}</td><td class="num">${u.from ? "dès " : ""}${euro(u.amount)}</td><td><span class="badge ${u.status === "Confirmé" ? "badge--ok" : "badge--wait"}">${esc(u.status)}</span></td></tr>`).join("")}</tbody></table>`
+      : '<div class="empty">Aucun rendez-vous à venir pour l\'instant.</div>';
+
+    const v = c.visits, pv = p.visits;
+    $("#visit-tiles").innerHTML = [
+      tile("Visiteurs uniques", int(v.visitors), "", delta(v.visitors, pv.visitors)),
+      tile("Nouveaux visiteurs", int(v.newVisitors), v.visitors ? pct(v.newVisitors / v.visitors) + " des visiteurs" : "", delta(v.newVisitors, pv.newVisitors)),
+      tile("Visites", int(v.sessions), "", delta(v.sessions, pv.sessions)),
+      tile("Pages vues", int(v.pageviews), v.sessions ? num1(v.pagesPerSession) + " par visite" : "", delta(v.pageviews, pv.pageviews)),
+      tile("Sur mobile", v.sessions ? pct(v.mobileShare) : "—", "Part des visites"),
+      tile("Clics WhatsApp", int(v.contacts.whatsapp), "", delta(v.contacts.whatsapp, pv.contacts.whatsapp)),
+      tile("Clics Instagram", int(v.contacts.instagram), "", delta(v.contacts.instagram, pv.contacts.instagram)),
+      tile("Appels lancés", int(v.contacts.tel), "Clics sur le téléphone", delta(v.contacts.tel, pv.contacts.tel)),
+      tile("« Réserver ce modèle »", int(v.galleryBook), "Clics depuis la galerie", delta(v.galleryBook, pv.galleryBook)),
+      tile("Applis installées", int(v.installs), "", delta(v.installs, pv.installs)),
+    ].join("");
+    columns($("#chart-daily"), v.daily.map((x) => x.label), [{ name: "Visiteurs", color: "var(--ca)", values: v.daily.map((x) => x.n) }]);
+    const base = v.funnel[0].n || 0;
+    $("#funnel").innerHTML = base ? v.funnel.map((f) => `<div class="bar"><span class="bar__label">${f.label}</span><span class="bar__track"><span class="bar__fill" style="display:block;width:${(f.n / base) * 100}%"></span></span><span class="bar__val">${int(f.n)}<small>${pct(f.n / base)}</small></span></div>`).join("") : '<div class="empty">Pas encore de visites sur cette période.</div>';
+    bars($("#sources"), v.sources); bars($("#devices"), v.devices); bars($("#pages"), v.pages);
+
+    const r = c.resa, pr = p.resa;
+    const decided = r.confirmed + r.declined + r.cancelled + r.removed;
+    $("#resa-tiles").innerHTML = [
+      tile("Demandes reçues", int(r.requests), "", delta(r.requests, pr.requests)),
+      tile("Confirmées", int(r.confirmed), r.requests ? pct(r.confirmed / r.requests) + " des demandes" : ""),
+      tile("En attente", int(r.pending), "À confirmer ou refuser"),
+      tile("Refusées", int(r.declined)),
+      tile("Annulées par la cliente", int(r.cancelled), r.requests ? pct(r.cancelled / r.requests) + " des demandes" : "", delta(r.cancelled, pr.cancelled, true)),
+      tile("Retirées de l'agenda", int(r.removed), "Supprimées à la main"),
+      tile("Délai moyen de réservation", r.requests ? num1(r.leadDays) + " j" : "—", "Entre la demande et le rendez-vous"),
+      tile("À domicile", int(r.home), "Demandes avec déplacement"),
+      tile("Mèches / produits fournis", int(r.withHair), "Option incluse choisie"),
+    ].join("");
+    bars($("#services"), r.services); bars($("#categories"), r.categories);
+    columns($("#chart-weekdays"), r.weekdays.map((x) => x.label), [{ name: "Rendez-vous", color: "var(--ca)", values: r.weekdays.map((x) => x.n) }]);
+    columns($("#chart-hours"), r.hours.map((x) => x.label), [{ name: "Rendez-vous", color: "var(--ca)", values: r.hours.map((x) => x.n) }]);
+
+    const m = c.money, pm = p.money;
+    $("#money-tiles").innerHTML = [
+      tile("Chiffre d'affaires", euro(m.ca), "Prestations confirmées et passées", delta(m.ca, pm.ca)),
+      tile("Prestations réalisées", int(m.done), "", delta(m.done, pm.done)),
+      tile("Panier moyen", m.done ? euro(m.basket) : "—", "", delta(m.basket, pm.basket)),
+      tile("CA moyen par jour", euro(m.perDay), ""),
+      tile("CA perdu", euro(m.lost), `${m.lostCount} annulation${m.lostCount > 1 ? "s" : ""} ou refus`, delta(m.lost, pm.lost, true)),
+      tile("Dépenses", euro(m.expenses), "", delta(m.expenses, pm.expenses, true)),
+      tile("Bénéfice", euro(m.profit), "CA − dépenses", delta(m.profit, pm.profit), true),
+      tile("Marge", m.ca ? pct(m.margin) : "—", "Bénéfice ÷ CA"),
+    ].join("");
+    columns($("#chart-months"), d.months.map((x) => x.label), [
+      { name: "CA réalisé", color: "var(--ca)", values: d.months.map((x) => x.ca) },
+      { name: "Dépenses", color: "var(--dep)", values: d.months.map((x) => x.dep) },
+    ], (n, axis) => axis ? int(n) + " €" : euro(n));
+    bars($("#ca-services"), m.caServices, (n) => euro(n));
+    bars($("#exp-cats"), m.expenseCats.map((x) => ({ ...x, color: "var(--dep)" })), (n) => euro(n));
+
+    $("#exp-table").innerHTML = d.expenses.length
+      ? `<table><thead><tr><th>Date</th><th>Catégorie</th><th>Libellé</th><th class="num">Montant</th><th></th></tr></thead><tbody>${d.expenses.map((x) => `<tr><td>${x.date.split("-").reverse().join("/")}</td><td>${esc(x.cat)}</td><td>${esc(x.label || "—")}</td><td class="num">${euro(x.amount, 2)}</td><td class="num"><button class="btn btn--ghost" data-del="${x.row}" type="button">Supprimer</button></td></tr>`).join("")}</tbody></table>`
+      : '<div class="empty">Aucune dépense sur cette période.</div>';
+  }
+
+  function load() {
+    $("#loading").hidden = false; $("#error").hidden = true;
+    google.script.run.withSuccessHandler((d) => { $("#loading").hidden = true; render(d); })
+      .withFailureHandler((e) => { $("#loading").hidden = true; const el = $("#error"); el.textContent = "Impossible de charger les indicateurs : " + e.message; el.hidden = false; })
+      .getPilotage(KEY, period);
+  }
+
+  document.querySelectorAll(".periods button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll(".periods button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    period = b.dataset.p; load();
+  }));
+
+  $("#exp-cat").innerHTML = CATEGORIES.map((c) => `<option>${esc(c)}</option>`).join("");
+  $("#exp-form").date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  $("#exp-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target, btn = f.querySelector("button");
+    btn.disabled = true;
+    google.script.run.withSuccessHandler(() => { btn.disabled = false; f.label.value = ""; f.amount.value = ""; load(); })
+      .withFailureHandler((err) => { btn.disabled = false; alertBox(err.message); })
+      .addExpense(KEY, { date: f.date.value, category: f.category.value, label: f.label.value, amount: f.amount.value });
+  });
+  $("#exp-table").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-del]"); if (!b) return;
+    if (b.dataset.confirm !== "1") { b.dataset.confirm = "1"; b.textContent = "Confirmer ?"; return; }
+    b.disabled = true;
+    google.script.run.withSuccessHandler(load).withFailureHandler((err) => alertBox(err.message)).deleteExpense(KEY, b.dataset.del);
+  });
+  function alertBox(msg) { const el = $("#error"); el.textContent = msg; el.hidden = false; scrollTo({ top: 0, behavior: "smooth" }); }
+
+  load();
+</script>
+</body>
+</html>

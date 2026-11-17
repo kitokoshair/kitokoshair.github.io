@@ -6,6 +6,7 @@
   "use strict";
 
   const CFG = window.KITOKO_CONFIG;
+  const track = (...a) => { try { window.khTrack && window.khTrack(...a); } catch (e) {} };
   const CAT = window.KITOKO_SERVICES;
   const B = CFG.booking;
   const DEMO = !CFG.appsScriptUrl;
@@ -254,6 +255,7 @@
     state.family = id || null; state.variant = null; state.size = null;
     const f = currentFamily();
     state.hair = f?.hairDefault || "sans";
+    if (f) track("book_start", f.id, true);
     $("[data-family-select]").value = id || "";
     const vChips = $("[data-variant-chips]"); vChips.replaceChildren();
     $("[data-variant-field]").hidden = !f;
@@ -411,7 +413,7 @@
     $("[data-slots-title]").textContent = `Heure d'arrivée le ${dateLong(ds)} (durée ${dur < 60 ? dur + " min" : Math.floor(dur / 60) + " h" + (dur % 60 ? " " + pad(dur % 60) : "")} environ)`;
     $("[data-slots]").replaceChildren(...slots.map((t) => {
       const end = fromMin(toMin(t) + dur);
-      return chip("slot", t, hhFr(t), `fin vers ${hhFr(end)}`, () => { state.time = t; $("[data-slot-error]").hidden = true; $("[data-to-step3]").disabled = false; refreshSummary(); }, state.time === t);
+      return chip("slot", t, hhFr(t), `fin vers ${hhFr(end)}`, () => { state.time = t; track("book_date", "", true); $("[data-slot-error]").hidden = true; $("[data-to-step3]").disabled = false; refreshSummary(); }, state.time === t);
     }));
     $("[data-to-step3]").disabled = !state.time;
     refreshSummary();
@@ -420,7 +422,7 @@
   function buildStep2() {
     $("[data-cal-prev]").addEventListener("click", () => { viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1); renderCalendar(); });
     $("[data-cal-next]").addEventListener("click", () => { viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1); renderCalendar(); });
-    $('[data-step="2"]').addEventListener("submit", (e) => { e.preventDefault(); if (state.date && state.time) goTo(3); });
+    $('[data-step="2"]').addEventListener("submit", (e) => { e.preventDefault(); if (state.date && state.time) { track("book_details", "", true); goTo(3); } });
   }
 
   /* ───────── Étape 3 : coordonnées + envoi ───────── */
@@ -457,6 +459,8 @@
         extras: CAT.extras.filter((x) => state.extras.has(x.id)).map((x) => x.label),
         priceLines: p.lines, total: p.total, priceFrom: p.from,
         date: state.date, time: state.time, durationMinutes: duration(),
+        category: groupById(currentFamily()?.group)?.label || "",
+        source: (window.khVisitor && window.khVisitor().source) || "", visitor: (window.khVisitor && window.khVisitor().visitor) || "",
         firstName: fd.get("firstName").trim(), lastName: fd.get("lastName").trim(),
         email: fd.get("email").trim(), phone: fd.get("phone").trim(),
         hairSupply: hairSupplyText(fd), photoUrl: (fd.get("photoUrl") || "").trim(), notes: (fd.get("notes") || "").trim(),
@@ -480,6 +484,7 @@
           }
           throw new Error(data.error);
         }
+        if (!DEMO) track("book_submit", payload.familyId);
         showDone(payload, data);
       } catch {
         err.textContent = `L'envoi n'a pas abouti. Vérifiez votre connexion et réessayez, ou contactez-nous${CFG.business.whatsapp ? " sur WhatsApp" : ""}.`;

@@ -6,7 +6,8 @@
  *   • lit son Google Agenda pour donner les créneaux libres au site ;
  *   • crée le rendez-vous dans l'agenda (en attente, puis confirmé) ;
  *   • envoie les e-mails à la cliente et à la coiffeuse ;
- *   • gère la confirmation, le refus et l'annulation (règle des 72 h).
+ *   • gère la confirmation, le refus et l'annulation (règle des 72 h) ;
+ *   • alimente le tableau de bord de pilotage (voir Pilotage.gs).
  *
  *  Installation : voir README.md, étape 2.
  * ─────────────────────────────────────────────────────────────
@@ -54,6 +55,7 @@ function doGet(e) {
       case "confirm":      return adminAction_(p, "confirm");
       case "decline":      return adminAction_(p, "decline");
       case "cancel":       return clientCancel_(p);
+      case "pilotage":     return pilotagePage_(p);
       default:             return json({ ok: true, service: CONFIG.BUSINESS_NAME });
     }
   } catch (err) {
@@ -65,6 +67,9 @@ function doGet(e) {
 function doPost(e) {
   let data;
   try { data = JSON.parse(e.postData.contents); } catch (err) { return json({ ok: false, error: "bad_request" }); }
+  if (data.action === "hit") {
+    try { return json(recordHit_(data)); } catch (err) { console.error(err); return json({ ok: false }); }
+  }
   if (data.action !== "book") return json({ ok: false, error: "bad_request" });
 
   const lock = LockService.getScriptLock();
@@ -150,6 +155,7 @@ function book_(d) {
   const id = ev.getId();
   ev.setDescription(eventDescription_(c, ref, priceTxt, id));
   clearMonthCache_(start);
+  journalNew_(c, ref, start, duration, id);
 
   const cancelUrl = scriptUrl_() + "?action=cancel&id=" + encodeURIComponent(id) + "&t=" + token;
   sendClientReceived_(c, ref, start, end, priceTxt, cancelUrl);
@@ -184,12 +190,14 @@ function adminAction_(p, action) {
     ev.setTitle(ev.getTitle().replace(/^⏳\s*/, "✅ "));
     ev.setColor(CalendarApp.EventColor.GREEN);
     ev.setTag("kh_status", "confirmed");
+    journalStatus_(ev.getTag("kh_ref"), "confirmed");
     sendClientConfirmed_(ev);
     return page_("Rendez-vous confirmé", "<p>" + esc_(name) + " vient de recevoir un e-mail de confirmation.</p>");
   }
 
   // Refus : le créneau est libéré
   sendClientDeclined_(ev);
+  journalStatus_(ev.getTag("kh_ref"), "declined");
   clearMonthCache_(ev.getStartTime());
   ev.deleteEvent();
   return page_("Rendez-vous refusé", "<p>Le créneau est de nouveau libre et " + esc_(name) + " a été prévenue par e-mail.</p>");
@@ -227,6 +235,7 @@ function clientCancel_(p) {
   const title = ev.getTitle().replace(/^\S+\s/, "");
   clearMonthCache_(start);
   ev.deleteEvent();
+  journalStatus_(ref, "cancelled");
 
   mail_(email, "Rendez-vous annulé — " + ref,
     "<p>Bonjour " + esc_(name) + ",</p><p>Votre rendez-vous du <b>" + esc_(whenText_(start)) + "</b> est bien annulé.</p><p>" + esc_(rule) + "</p>" +
@@ -345,6 +354,7 @@ function clean_(d) {
     firstName: s(d.firstName, 60), lastName: s(d.lastName, 60), email: s(d.email, 120), phone: s(d.phone, 30),
     service: s(d.service, 160), extras: (Array.isArray(d.extras) ? d.extras : []).slice(0, 10).map(function (x) { return s(x, 80); }),
     total: Math.max(0, Number(d.total) || 0), priceFrom: !!d.priceFrom, deposit: Math.max(0, Number(d.deposit) || 0),
+    category: s(d.category, 60), source: s(d.source, 30), visitor: /^[a-z0-9]{8,40}$/i.test(s(d.visitor)) ? s(d.visitor, 40) : "",
     hairSupply: s(d.hairSupply, 80), photoUrl: /^https?:\/\//.test(s(d.photoUrl)) ? s(d.photoUrl, 300) : "", notes: s(d.notes, 1000),
   };
 }
