@@ -7,7 +7,7 @@
    - Agenda, cartes, recherche d'adresse : jamais mis en cache.
    Changer VERSION à chaque mise à jour importante du site.
    ───────────────────────────────────────────────────────────── */
-const VERSION = "kitoko-2026-11-16a";
+const VERSION = "kitoko-2026-11-17a";
 const CORE = [
   "./", "index.html", "galerie.html", "offline.html", "manifest.webmanifest",
   "assets/css/style.css", "assets/js/config.js", "assets/js/services.js", "assets/js/app.js",

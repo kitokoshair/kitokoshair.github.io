@@ -48,11 +48,11 @@
 
   /* ───────── Contact (pied de page) ───────── */
   const biz = CFG.business;
-  const set = (sel, href, label) => { const a = $(sel); if (!a) return; if (href) { a.href = href; if (label) a.textContent = label; } else a.parentElement.remove(); };
+  const set = (sel, href, label) => { const a = $(sel); if (!a) return; if (href) { a.href = href; if (label) { if (a.hasAttribute("data-icon")) { a.setAttribute("aria-label", label); a.title = label; } else a.textContent = label; } } else if (a.hasAttribute("data-icon")) a.remove(); else a.parentElement.remove(); };
   $$("[data-city]").forEach((n) => (n.textContent = biz.city));
   set("[data-instagram]", biz.instagram && `https://instagram.com/${biz.instagram}`, `Instagram @${biz.instagram}`);
-  set("[data-whatsapp]", biz.whatsapp && `https://wa.me/${biz.whatsapp}`);
-  set("[data-phone]", biz.phoneDisplay && `tel:+${biz.whatsapp || ""}`, biz.phoneDisplay);
+  set("[data-whatsapp]", biz.whatsapp && `https://wa.me/${biz.whatsapp}`, "Écrire sur WhatsApp");
+  set("[data-phone]", biz.phoneDisplay && `tel:+${biz.whatsapp || ""}`, `Appeler le ${biz.phoneDisplay}`);
   set("[data-email]", biz.email && `mailto:${biz.email}`, biz.email);
 
   /* ───────── Données enrichies ───────── */
