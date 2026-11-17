@@ -169,7 +169,7 @@ function purgeVisites_() {
 
 function pilotagePage_(p) {
   if (!p.k || p.k !== pilKey_()) return page_("Lien invalide", "<p>Ce lien de tableau de bord n'est pas valide.</p>");
-  const t = HtmlService.createTemplateFromFile("Pilotage");
+  const t = HtmlService.createTemplateFromFile("Tableau");
   t.key = p.k;
   t.categories = JSON.stringify(PIL.EXPENSE_CATEGORIES);
   return t.evaluate().setTitle("Pilotage — " + CONFIG.BUSINESS_NAME)
